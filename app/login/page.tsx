@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, signUp, getProfile } from "@/lib/supabase/queries";
+import { signIn, signUp } from "@/lib/supabase/queries";
 import { Sparkles, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,13 +36,7 @@ export default function LoginPage() {
       } else {
         const { error: err } = await signIn(email, password);
         if (err) { setError(err.message); setLoading(false); return; }
-        // Check if they've completed onboarding (have a goal set)
-        const profile = await getProfile();
-        if (!profile?.goal) {
-          router.push("/onboarding");
-        } else {
-          router.push("/learn");
-        }
+        router.push("/learn");
       }
     } catch {
       setError("Something went wrong. Please try again.");
