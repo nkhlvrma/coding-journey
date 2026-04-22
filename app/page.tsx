@@ -63,7 +63,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-serif text-4xl sm:text-5xl md:text-6xl text-rose-500 leading-tight mb-4 max-w-2xl"
+          className="font-serif text-4xl sm:text-5xl md:text-6xl text-rose-600 leading-tight mb-4 max-w-2xl"
         >
           Learn to code,<br />one step at a time
         </motion.h1>
@@ -78,26 +78,41 @@ export default function LandingPage() {
           a personal coding journey designed for absolute beginners.
         </motion.p>
 
-        {/* CTA buttons */}
+        {/* CTA + trust block */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center gap-3 mb-16"
+          className="flex flex-col items-center gap-3 mb-10"
         >
           <Link
             href="/login?mode=signup"
-            className="group flex items-center gap-2 bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-bold px-7 py-3.5 rounded-full text-sm sm:text-base shadow-lg shadow-rose-200 transition-all duration-200"
+            className="group flex items-center gap-2 bg-rose-500 hover:bg-rose-600 active:scale-[0.97] text-white font-bold px-8 py-4 rounded-full text-sm sm:text-base shadow-lg shadow-rose-200 transition-all duration-150"
           >
             Start for free
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150" />
           </Link>
-          <Link
-            href="/login"
-            className="flex items-center gap-2 border-2 border-rose-200 text-rose-500 hover:bg-rose-50 active:scale-95 font-bold px-7 py-3.5 rounded-full text-sm sm:text-base transition-all duration-200"
-          >
-            Log in
-          </Link>
+          <p className="text-xs text-soft-rose">
+            Free to join · No credit card needed ·{" "}
+            <Link href="/login" className="underline underline-offset-2 hover:text-rose-500 transition-colors">
+              Already have an account?
+            </Link>
+          </p>
+
+          {/* Social proof — right below the CTA where it does its job */}
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1.5 mt-1 text-xs text-soft-rose">
+            {[
+              "Free forever",
+              "No setup required",
+              "17 in-depth lessons",
+              "Built-in Python editor",
+            ].map((point) => (
+              <span key={point} className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
+                {point}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
         {/* Feature highlights */}
@@ -105,7 +120,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl w-full"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl w-full mb-4"
         >
           {[
             { icon: "🐍", title: "Python from scratch", desc: "No experience needed. Learn variables, loops, and functions at your own pace." },
@@ -126,25 +141,6 @@ export default function LandingPage() {
           ))}
         </motion.div>
 
-        {/* Social proof / reassurance */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.75 }}
-          className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-soft-rose"
-        >
-          {[
-            "Free forever",
-            "No setup required",
-            "17 in-depth lessons",
-            "Built-in Python editor",
-          ].map((point) => (
-            <span key={point} className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
-              {point}
-            </span>
-          ))}
-        </motion.div>
       </main>
 
       {/* Footer */}
