@@ -111,7 +111,7 @@ export default function GlossaryPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="text-5xl mb-3">📖</div>
+          <div aria-hidden="true" className="text-5xl mb-3">📖</div>
           <h1 className="font-serif text-3xl sm:text-4xl text-rose-500 mb-2">Coding Glossary</h1>
           <p className="text-soft-rose text-sm sm:text-base max-w-md mx-auto leading-relaxed">
             Every programming word you'll encounter on your journey — explained simply.
@@ -131,7 +131,8 @@ export default function GlossaryPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search any term or keyword…"
-            className="w-full pl-10 pr-10 py-3 rounded-full border-2 border-rose-200 bg-white/80 text-sm text-text-rose placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300 transition-all shadow-sm"
+            aria-label="Search glossary terms"
+            className="w-full pl-10 pr-10 py-3 rounded-full border-2 border-rose-200 bg-white/80 text-sm text-text-rose placeholder:text-rose-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:border-rose-300 transition-all shadow-sm"
           />
           {query && (
             <button
@@ -144,7 +145,7 @@ export default function GlossaryPage() {
         </motion.div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-8">
 
         {/* Category pills */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -173,7 +174,7 @@ export default function GlossaryPage() {
         {/* Terms grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-16">
-            <div className="text-4xl mb-3">🔍</div>
+            <div aria-hidden="true" className="text-4xl mb-3">🔍</div>
             <p className="text-soft-rose">No terms found. Try a different search!</p>
           </div>
         ) : (
@@ -202,7 +203,7 @@ export default function GlossaryPage() {
             ))}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

@@ -51,6 +51,7 @@ export default function LandingPage() {
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-16">
 
         <motion.div
+          aria-hidden="true"
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -134,7 +135,7 @@ export default function LandingPage() {
               transition={{ delay: 0.5 + i * 0.08 }}
               className="bg-white/80 backdrop-blur-sm border border-rose-100 rounded-2xl p-5 text-left shadow-sm"
             >
-              <div className="text-3xl mb-3">{f.icon}</div>
+              <div aria-hidden="true" className="text-3xl mb-3">{f.icon}</div>
               <h3 className="font-bold text-text-rose text-sm mb-1">{f.title}</h3>
               <p className="text-xs text-soft-rose leading-relaxed">{f.desc}</p>
             </motion.div>

@@ -42,30 +42,32 @@ export default function LessonCard({ lesson, completed, onToggle, index = 0 }: P
     >
       <div className="flex items-start gap-3 px-4 py-3.5">
 
-        {/* Completion circle */}
+        {/* Completion circle — p-3 -m-3 expands tap area to ~44px without affecting layout */}
         <button
           onClick={handleToggle}
-          className={cn(
-            "mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 active:scale-90",
-            completed
-              ? "bg-green-400 border-green-400 text-white shadow-sm"
-              : "border-rose-200 hover:border-rose-400 hover:bg-rose-50"
-          )}
+          className="mt-0.5 flex-shrink-0 p-3 -m-3 transition-all duration-200"
           aria-label={completed ? "Mark incomplete" : "Mark complete"}
         >
-          <AnimatePresence>
-            {completed && (
-              <motion.div
-                key="check"
-                initial={{ scale: 0, rotate: -15 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0, rotate: 15 }}
-                transition={{ type: "spring", stiffness: 500, damping: 20 }}
-              >
-                <Check className="w-3 h-3" strokeWidth={3} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <span className={cn(
+            "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 active:scale-90",
+            completed
+              ? "bg-green-400 border-green-400 text-white shadow-sm"
+              : "border-rose-400 hover:border-rose-500 hover:bg-rose-50"
+          )}>
+            <AnimatePresence>
+              {completed && (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0, rotate: -15 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 15 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >
+                  <Check className="w-3 h-3" strokeWidth={3} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </span>
         </button>
 
         {/* Content */}
@@ -78,11 +80,11 @@ export default function LessonCard({ lesson, completed, onToggle, index = 0 }: P
               {lesson.title}
             </p>
 
-            {/* Arrow link — replaces the pill button */}
+            {/* Arrow link — p-3 -m-3 gives 44px tap area */}
             <Link
               href={`/learn/${lesson.id}`}
               className={cn(
-                "flex-shrink-0 p-1 rounded-full transition-all duration-150 active:scale-95",
+                "flex-shrink-0 p-3 -m-3 rounded-full transition-all duration-150 active:scale-95",
                 completed
                   ? "text-green-300 hover:text-green-500 hover:bg-green-100"
                   : "text-rose-200 hover:text-rose-500 hover:bg-rose-50"
@@ -137,6 +139,7 @@ export default function LessonCard({ lesson, completed, onToggle, index = 0 }: P
                       href={res.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${res.label} (opens in new tab)`}
                       className="flex items-center gap-2.5 py-2 px-2 rounded-lg hover:bg-white/80 transition-colors group"
                     >
                       <span className="text-sm flex-shrink-0">{res.icon}</span>

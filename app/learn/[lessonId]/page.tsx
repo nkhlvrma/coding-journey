@@ -183,17 +183,17 @@ export default function LessonPage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-8 space-y-8">
 
         {/* Learning objectives */}
         <div className="bg-white rounded-2xl border border-rose-100 p-5">
-          <h2 className="flex items-center gap-2 font-serif text-lg text-rose-600 mb-3">
+          <h2 className="flex items-center gap-2 font-serif text-lg text-rose-700 mb-3">
             <ListChecks className="w-5 h-5" /> What you'll learn
           </h2>
           <ul className="space-y-2">
             {content.objectives.map((obj, i) => (
               <li key={i} className="flex items-start gap-2.5 text-sm text-soft-rose">
-                <span className="text-rose-400 mt-0.5 flex-shrink-0">✦</span>
+                <span aria-hidden="true" className="text-rose-400 mt-0.5 flex-shrink-0">✦</span>
                 {obj}
               </li>
             ))}
@@ -203,7 +203,7 @@ export default function LessonPage() {
         {/* Content sections */}
         {content.sections.map((section, si) => (
           <div key={si} className="space-y-4">
-            <h2 className="flex items-center gap-2 font-serif text-xl text-rose-600">
+            <h2 className="flex items-center gap-2 font-serif text-xl text-rose-700">
               <BookOpen className="w-5 h-5 flex-shrink-0" /> {section.heading}
             </h2>
 
@@ -215,9 +215,10 @@ export default function LessonPage() {
 
         {/* Exercise */}
         <div className="space-y-4">
-          <h2 className="flex items-center gap-2 font-serif text-xl text-rose-600">
+          <h2 className="flex items-center gap-2 font-serif text-xl text-rose-700">
             <Code2 className="w-5 h-5 flex-shrink-0" />
-            {content.exercise.hasCodeEditor ? "🧪 Try it yourself" : "✏️ Exercise"}
+            <span aria-hidden="true">{content.exercise.hasCodeEditor ? "🧪 " : "✏️ "}</span>
+            {content.exercise.hasCodeEditor ? "Try it yourself" : "Exercise"}
           </h2>
 
           <div className="bg-rose-50 rounded-xl border border-rose-200 p-4">
@@ -258,11 +259,11 @@ export default function LessonPage() {
 
         {/* Key takeaways */}
         <div className="bg-white rounded-2xl border border-rose-100 p-5">
-          <h2 className="font-serif text-lg text-rose-600 mb-3">Key takeaways</h2>
+          <h2 className="font-serif text-lg text-rose-700 mb-3">Key takeaways</h2>
           <ul className="space-y-2">
             {content.keyTakeaways.map((point, i) => (
               <li key={i} className="flex items-start gap-2.5 text-sm text-soft-rose">
-                <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
+                <span aria-hidden="true" className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                 {point}
               </li>
             ))}
@@ -283,8 +284,9 @@ export default function LessonPage() {
             value={noteText}
             onChange={(e) => handleNoteChange(e.target.value)}
             placeholder="Jot down anything you want to remember from this lesson…"
+            aria-label="My lesson notes"
             rows={4}
-            className="w-full resize-none rounded-xl border border-amber-200 bg-amber-50/50 px-3.5 py-2.5 text-sm text-text-rose placeholder:text-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all leading-relaxed"
+            className="w-full resize-none rounded-xl border border-amber-200 bg-amber-50/50 px-3.5 py-2.5 text-sm text-text-rose placeholder:text-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:border-transparent transition-all leading-relaxed"
           />
         </div>
 
@@ -321,13 +323,13 @@ export default function LessonPage() {
           ) : (
             <Link href="/learn">
               <Button size="sm" className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4">
-                <span>All lessons 🌸</span>
+                All lessons
               </Button>
             </Link>
           )}
         </div>
 
-      </div>
+      </main>
     </div>
   );
 }

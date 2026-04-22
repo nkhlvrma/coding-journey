@@ -35,8 +35,25 @@ function iconColor(bg: string) {
 }
 import { motion, AnimatePresence } from "framer-motion";
 
-// Phase celebration modal
+// Phase celebration modal — accessible dialog with focus management
 function PhaseCelebration({ phase, onClose }: { phase: { icon: string; title: string } | null; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Move focus into the dialog when it opens
+  useEffect(() => {
+    if (phase) {
+      setTimeout(() => closeRef.current?.focus(), 50);
+    }
+  }, [phase]);
+
+  // Trap Escape key to close
+  useEffect(() => {
+    if (!phase) return;
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [phase, onClose]);
+
   return (
     <AnimatePresence>
       {phase && (
@@ -47,6 +64,9 @@ function PhaseCelebration({ phase, onClose }: { phase: { icon: string; title: st
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
         >
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Phase complete!"
             initial={{ scale: 0.8, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -54,6 +74,7 @@ function PhaseCelebration({ phase, onClose }: { phase: { icon: string; title: st
             className="bg-white rounded-3xl border-2 border-rose-200 p-8 max-w-sm mx-4 text-center shadow-2xl"
           >
             <motion.div
+              aria-hidden="true"
               className="text-6xl mb-3"
               animate={{ rotate: [0, -10, 10, -10, 10, 0], scale: [1, 1.2, 1.2, 1.2, 1.2, 1] }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -63,13 +84,14 @@ function PhaseCelebration({ phase, onClose }: { phase: { icon: string; title: st
             <h2 className="font-serif text-2xl text-rose-500 mb-1">Phase Complete!</h2>
             <p className="text-soft-rose text-sm mb-2 font-semibold">{phase.title}</p>
             <p className="text-soft-rose text-sm mb-6">
-              You finished this entire phase — that's incredible! Keep going 🌸
+              You finished this entire phase — that&apos;s incredible! Keep going
             </p>
             <button
+              ref={closeRef}
               onClick={onClose}
-              className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white rounded-full px-6 py-2.5 text-sm font-bold transition-all"
+              className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white rounded-full px-6 py-2.5 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-rose-500"
             >
-              Keep learning ✨
+              Keep learning
             </button>
           </motion.div>
         </motion.div>
@@ -179,9 +201,10 @@ export default function LearnPage() {
 
       <PhaseCelebration phase={celebratingPhase} onClose={() => setCelebratingPhase(null)} />
 
+      <main id="main-content">
       {/* Hero */}
       <div className="bg-gradient-to-br from-rose-100 via-pink-50 to-purple-50 text-center px-4 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 text-2xl tracking-widest pointer-events-none select-none overflow-hidden leading-10">
+        <div aria-hidden="true" className="absolute inset-0 opacity-10 text-2xl tracking-widest pointer-events-none select-none overflow-hidden leading-10">
           🌸 ✨ 💻 🌷 🐍 💡 🌸 ✨ 💻 🌷 🐍 💡 🌸 ✨ 💻 🌷 🐍 💡
         </div>
         <motion.h1
@@ -260,7 +283,8 @@ export default function LearnPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search lessons…"
-              className="w-full pl-9 pr-9 py-2.5 rounded-full border-2 border-rose-200 bg-rose-50/50 text-sm text-text-rose placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300 transition-all"
+              aria-label="Search lessons"
+              className="w-full pl-9 pr-9 py-2.5 rounded-full border-2 border-rose-200 bg-rose-50/50 text-sm text-text-rose placeholder:text-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:border-rose-300 transition-all"
             />
             {searchQuery && (
               <button
@@ -457,11 +481,11 @@ export default function LearnPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline gap-2 flex-wrap">
-                          <span className="text-[11px] font-extrabold text-rose-300 uppercase tracking-[0.1em]">
+                          <span className="text-[11px] font-extrabold text-rose-700 uppercase tracking-[0.1em]">
                             Phase {phaseIdx + 1}
                           </span>
-                          <span className="text-[11px] text-rose-200">·</span>
-                          <span className="text-[11px] font-semibold text-soft-rose/70">
+                          <span className="text-[11px] text-soft-rose" aria-hidden="true">·</span>
+                          <span className="text-[11px] font-semibold text-soft-rose">
                             {phaseDone}/{phase.lessons.length} done
                           </span>
                         </div>
@@ -491,7 +515,7 @@ export default function LearnPage() {
               </div>
 
               {phaseIdx < phases.length - 1 && (
-                <div className="flex items-center gap-4 mt-10 text-rose-200">
+                <div aria-hidden="true" className="flex items-center gap-4 mt-10 text-rose-200">
                   <div className="flex-1 h-px bg-gradient-to-r from-rose-200 to-transparent" />
                   <span className="text-sm select-none">🌸</span>
                   <div className="flex-1 h-px bg-gradient-to-l from-rose-200 to-transparent" />
@@ -507,19 +531,21 @@ export default function LearnPage() {
           <section className="bg-gradient-to-br from-rose-100 via-pink-50 to-purple-50 rounded-2xl p-6 text-center border border-rose-200">
             <h3 className="font-serif text-xl text-rose-500 mb-2 italic">{motivationalQuotes[quoteIdx]}</h3>
             <p className="text-soft-rose text-sm leading-relaxed mb-4">
-              You don't have to learn everything at once. Even 15 minutes a day — consistently — will take you places.
+              You don&apos;t have to learn everything at once. Even 15 minutes a day — consistently — will take you places.
             </p>
             <button
               onClick={() => setQuoteIdx((i) => (i + 1) % motivationalQuotes.length)}
               className="bg-white border-2 border-rose-200 text-rose-500 rounded-full px-5 py-2 text-sm font-semibold hover:bg-rose-50 transition-colors"
             >
-              Another quote 🌸
+              Another quote
             </button>
           </section>
 
           {/* Daily habit */}
           <section className="bg-white rounded-2xl border-2 border-rose-200 p-6 mb-4">
-            <h3 className="font-serif text-lg text-rose-500 mb-4">📅 Your daily habit plan</h3>
+            <h3 className="font-serif text-lg text-rose-500 mb-4">
+              <span aria-hidden="true">📅 </span>Your daily habit plan
+            </h3>
             <div className="space-y-3">
               {[
                 { icon: "☀️", time: "Morning (15 min)", desc: "Read one lesson — click any card to open it" },
@@ -527,7 +553,7 @@ export default function LearnPage() {
                 { icon: "💕", time: "Weekends", desc: "Work on a small project using what you've learned" },
               ].map((item) => (
                 <div key={item.time} className="flex gap-3 items-start text-sm text-soft-rose">
-                  <span className="text-xl flex-shrink-0">{item.icon}</span>
+                  <span aria-hidden="true" className="text-xl flex-shrink-0">{item.icon}</span>
                   <span><strong className="text-text-rose">{item.time}</strong> — {item.desc}</span>
                 </div>
               ))}
@@ -535,6 +561,7 @@ export default function LearnPage() {
           </section>
         </div>
       </div>
+      </main>
     </div>
   );
 }

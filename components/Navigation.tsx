@@ -32,6 +32,13 @@ export default function Navigation() {
   ];
 
   return (
+    <>
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-rose-700 focus:rounded-lg focus:shadow-lg focus:font-semibold focus:ring-2 focus:ring-rose-400 focus:outline-none"
+    >
+      Skip to content
+    </a>
     <motion.header
       initial={{ y: -56, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -97,5 +104,6 @@ export default function Navigation() {
         </nav>
       </div>
     </motion.header>
+    </>
   );
 }

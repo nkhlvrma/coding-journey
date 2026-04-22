@@ -87,7 +87,8 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-cream">
       <Navigation />
 
-      <motion.div
+      <motion.main
+        id="main-content"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -148,7 +149,7 @@ export default function ProfilePage() {
         {/* Overall progress */}
         <div className="bg-white rounded-2xl border border-rose-100 p-5">
           <div className="flex items-baseline justify-between mb-3">
-            <h2 className="font-serif text-lg text-rose-600">Overall Progress</h2>
+            <h2 className="font-serif text-lg text-rose-700">Overall Progress</h2>
             <span className="text-xs font-bold text-rose-400">{completedCount} of {totalLessons} lessons</span>
           </div>
           <Progress value={progressPct} className="h-2.5" />
@@ -157,7 +158,7 @@ export default function ProfilePage() {
 
         {/* Phase breakdown */}
         <div className="bg-white rounded-2xl border border-rose-100 p-5">
-          <h2 className="font-serif text-lg text-rose-600 mb-4">Phase Breakdown</h2>
+          <h2 className="font-serif text-lg text-rose-700 mb-4">Phase Breakdown</h2>
           <div className="space-y-4">
             {phaseProgress.map(({ phase, completed, total }) => {
               const pct = Math.round((completed / total) * 100);
@@ -181,7 +182,7 @@ export default function ProfilePage() {
         {/* Completed lessons */}
         {completedLessons.length > 0 && (
           <div className="bg-white rounded-2xl border border-rose-100 p-5">
-            <h2 className="font-serif text-lg text-rose-600 mb-4">Completed Lessons</h2>
+            <h2 className="font-serif text-lg text-rose-700 mb-4">Completed Lessons</h2>
             <div className="space-y-2">
               {phases.flatMap((phase) =>
                 phase.lessons.filter((l) => completedLessons.includes(l.id)).map((lesson) => (
@@ -198,7 +199,7 @@ export default function ProfilePage() {
 
         {/* Achievements */}
         <div className="bg-white rounded-2xl border border-rose-100 p-5">
-          <h2 className="font-serif text-lg text-rose-600 mb-1">Achievements</h2>
+          <h2 className="font-serif text-lg text-rose-700 mb-1">Achievements</h2>
           <p className="text-xs text-soft-rose mb-4">{unlockedCount} of {achievements.length} unlocked</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {achievements.map((a, i) => (
@@ -231,7 +232,7 @@ export default function ProfilePage() {
         {/* Quiz history */}
         {quizScores.length > 0 && (
           <div className="bg-white rounded-2xl border border-rose-100 p-5">
-            <h2 className="font-serif text-lg text-rose-600 mb-4">Quiz History</h2>
+            <h2 className="font-serif text-lg text-rose-700 mb-4">Quiz History</h2>
             <div className="space-y-2">
               {quizScores.slice(0, 5).map((s, i) => {
                 const pct = Math.round((s.score / s.total) * 100);
@@ -251,7 +252,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-      </motion.div>
+      </motion.main>
     </div>
   );
 }
