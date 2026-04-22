@@ -28,7 +28,6 @@ export default function Navigation() {
   const navItems = [
     { href: "/learn", label: "Learn", icon: BookOpen },
     { href: "/playground", label: "Playground", icon: Terminal },
-    { href: "/profile", label: "Profile", icon: User },
   ];
 
   return (
@@ -71,16 +70,19 @@ export default function Navigation() {
           {/* Avatar + logout */}
           {name && (
             <div className="flex items-center gap-1 ml-0.5 sm:ml-1">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold cursor-default flex-shrink-0",
-                  avatarColor
-                )}
-              >
-                {name.charAt(0).toUpperCase()}
-              </motion.div>
+              <Link href="/profile">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={cn(
+                    "w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0",
+                    avatarColor,
+                    pathname.startsWith("/profile") && "ring-2 ring-rose-400 ring-offset-1"
+                  )}
+                >
+                  {name.charAt(0).toUpperCase()}
+                </motion.div>
+              </Link>
               <button
                 onClick={handleLogout}
                 aria-label="Log out"
