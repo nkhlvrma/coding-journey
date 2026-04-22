@@ -87,7 +87,7 @@ export default function ProfilePage() {
       >
 
         {/* Profile card */}
-        <div className="bg-gradient-to-br from-rose-100 via-pink-50 to-purple-50 rounded-3xl border border-rose-200 p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
+        <div className="bg-white rounded-2xl border border-rose-100 p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
           <div className={cn("w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-bold text-white flex-shrink-0 shadow-lg", profile.avatar_color)}>
             {profile.name.charAt(0).toUpperCase()}
           </div>
@@ -106,40 +106,50 @@ export default function ProfilePage() {
           </Button>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-          {[
-            { icon: <CheckCircle2 className="w-5 h-5 text-green-500" />, value: String(completedCount), label: "Lessons done", bg: "bg-green-50 border-green-200" },
-            { icon: <Flame className="w-5 h-5 text-orange-500" />, value: streak > 0 ? `${streak}d` : "—", label: "Day streak", bg: "bg-orange-50 border-orange-200" },
-            { icon: <Trophy className="w-5 h-5 text-yellow-500" />, value: bestQuizScore !== null ? `${bestQuizScore}%` : "—", label: "Best quiz", bg: "bg-yellow-50 border-yellow-200" },
-            { icon: <Star className="w-5 h-5 text-purple-500" />, value: `${unlockedCount}/${achievements.length}`, label: "Badges", bg: "bg-purple-50 border-purple-200" },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08, duration: 0.35 }}
-              className={cn("rounded-2xl border p-3 sm:p-4 text-center min-w-0", stat.bg)}
-            >
-              <div className="flex justify-center mb-1">{stat.icon}</div>
-              <div className="font-bold text-lg sm:text-xl text-text-rose truncate">{stat.value}</div>
-              <div className="text-xs text-soft-rose truncate">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Stats strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.08 }}
+          className="bg-white rounded-2xl border border-rose-100 overflow-hidden"
+        >
+          <div className="grid grid-cols-2 sm:grid-cols-4">
+            {[
+              { icon: <CheckCircle2 className="w-4 h-4 text-green-500" />, value: String(completedCount), label: "Lessons done" },
+              { icon: <Flame className="w-4 h-4 text-orange-500" />, value: streak > 0 ? `${streak}d` : "—", label: "Day streak" },
+              { icon: <Trophy className="w-4 h-4 text-yellow-500" />, value: bestQuizScore !== null ? `${bestQuizScore}%` : "—", label: "Best quiz" },
+              { icon: <Star className="w-4 h-4 text-purple-500" />, value: `${unlockedCount}/${achievements.length}`, label: "Badges" },
+            ].map((stat, i) => (
+              <div
+                key={stat.label}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-1.5 py-5 px-2",
+                  i === 1 && "border-l border-rose-100",
+                  i === 2 && "border-t border-rose-100 sm:border-t-0 sm:border-l",
+                  i === 3 && "border-t border-l border-rose-100 sm:border-t-0",
+                )}
+              >
+                {stat.icon}
+                <span className="font-extrabold text-2xl text-text-rose leading-none">{stat.value}</span>
+                <span className="text-xs text-soft-rose font-medium">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Overall progress */}
-        <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-          <h2 className="font-serif text-lg text-rose-500 mb-4">📈 Overall Progress</h2>
-          <div className="flex items-center gap-3">
-            <Progress value={progressPct} className="flex-1" />
-            <span className="text-sm font-bold text-rose-500">{completedCount}/{totalLessons}</span>
+        <div className="bg-white rounded-2xl border border-rose-100 p-5">
+          <div className="flex items-baseline justify-between mb-3">
+            <h2 className="font-serif text-lg text-rose-600">Overall Progress</h2>
+            <span className="text-xs font-bold text-rose-400">{completedCount} of {totalLessons} lessons</span>
           </div>
+          <Progress value={progressPct} className="h-2.5" />
+          <p className="text-xs text-soft-rose mt-2 font-medium">{progressPct}% complete</p>
         </div>
 
         {/* Phase breakdown */}
-        <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-          <h2 className="font-serif text-lg text-rose-500 mb-4">🗺️ Phase Breakdown</h2>
+        <div className="bg-white rounded-2xl border border-rose-100 p-5">
+          <h2 className="font-serif text-lg text-rose-600 mb-4">Phase Breakdown</h2>
           <div className="space-y-4">
             {phaseProgress.map(({ phase, completed, total }) => {
               const pct = Math.round((completed / total) * 100);
@@ -162,8 +172,8 @@ export default function ProfilePage() {
 
         {/* Completed lessons */}
         {completedLessons.length > 0 && (
-          <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-            <h2 className="font-serif text-lg text-rose-500 mb-4">✅ Completed Lessons</h2>
+          <div className="bg-white rounded-2xl border border-rose-100 p-5">
+            <h2 className="font-serif text-lg text-rose-600 mb-4">Completed Lessons</h2>
             <div className="space-y-2">
               {phases.flatMap((phase) =>
                 phase.lessons.filter((l) => completedLessons.includes(l.id)).map((lesson) => (
@@ -179,8 +189,8 @@ export default function ProfilePage() {
         )}
 
         {/* Achievements */}
-        <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-          <h2 className="font-serif text-lg text-rose-500 mb-1">🏅 Achievements</h2>
+        <div className="bg-white rounded-2xl border border-rose-100 p-5">
+          <h2 className="font-serif text-lg text-rose-600 mb-1">Achievements</h2>
           <p className="text-xs text-soft-rose mb-4">{unlockedCount} of {achievements.length} unlocked</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {achievements.map((a, i) => (
@@ -212,8 +222,8 @@ export default function ProfilePage() {
 
         {/* Quiz history */}
         {quizScores.length > 0 && (
-          <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-            <h2 className="font-serif text-lg text-rose-500 mb-4">🎯 Quiz History</h2>
+          <div className="bg-white rounded-2xl border border-rose-100 p-5">
+            <h2 className="font-serif text-lg text-rose-600 mb-4">Quiz History</h2>
             <div className="space-y-2">
               {quizScores.slice(0, 5).map((s, i) => {
                 const pct = Math.round((s.score / s.total) * 100);

@@ -176,8 +176,8 @@ export default function LessonPage() {
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
 
         {/* Learning objectives */}
-        <div className="bg-white rounded-2xl border-2 border-rose-200 p-5">
-          <h2 className="flex items-center gap-2 font-serif text-lg text-rose-500 mb-3">
+        <div className="bg-white rounded-2xl border border-rose-100 p-5">
+          <h2 className="flex items-center gap-2 font-serif text-lg text-rose-600 mb-3">
             <ListChecks className="w-5 h-5" /> What you'll learn
           </h2>
           <ul className="space-y-2">
@@ -193,7 +193,7 @@ export default function LessonPage() {
         {/* Content sections */}
         {content.sections.map((section, si) => (
           <div key={si} className="space-y-4">
-            <h2 className="flex items-center gap-2 font-serif text-xl text-rose-500">
+            <h2 className="flex items-center gap-2 font-serif text-xl text-rose-600">
               <BookOpen className="w-5 h-5 flex-shrink-0" /> {section.heading}
             </h2>
 
@@ -205,7 +205,7 @@ export default function LessonPage() {
 
         {/* Exercise */}
         <div className="space-y-4">
-          <h2 className="flex items-center gap-2 font-serif text-xl text-rose-500">
+          <h2 className="flex items-center gap-2 font-serif text-xl text-rose-600">
             <Code2 className="w-5 h-5 flex-shrink-0" />
             {content.exercise.hasCodeEditor ? "🧪 Try it yourself" : "✏️ Exercise"}
           </h2>
@@ -247,8 +247,8 @@ export default function LessonPage() {
         </div>
 
         {/* Key takeaways */}
-        <div className="bg-gradient-to-br from-rose-50 to-purple-50 rounded-2xl border border-rose-200 p-5">
-          <h2 className="font-serif text-lg text-rose-500 mb-3">✅ Key takeaways</h2>
+        <div className="bg-white rounded-2xl border border-rose-100 p-5">
+          <h2 className="font-serif text-lg text-rose-600 mb-3">Key takeaways</h2>
           <ul className="space-y-2">
             {content.keyTakeaways.map((point, i) => (
               <li key={i} className="flex items-start gap-2.5 text-sm text-soft-rose">

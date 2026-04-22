@@ -423,18 +423,36 @@ export default function LearnPage() {
               ref={(el) => { phaseRefs.current[phase.id] = el; }}
               className="scroll-mt-28"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-full ${phase.iconBg} flex items-center justify-center text-2xl flex-shrink-0`}>
-                  {phase.icon}
-                </div>
-                <div className="flex-1">
-                  <h2 className="font-serif text-xl text-rose-500 leading-tight">{phase.title}</h2>
-                  <p className="text-xs text-soft-rose mt-0.5">{phase.subtitle}</p>
-                </div>
-                <div className="text-xs font-semibold text-soft-rose whitespace-nowrap hidden sm:block">
-                  {phase.lessons.filter((l) => completedLessons.includes(l.id)).length}/{phase.lessons.length}
-                </div>
-              </div>
+              {(() => {
+                const phaseDone = phase.lessons.filter((l) => completedLessons.includes(l.id)).length;
+                return (
+                  <div className="mb-5">
+                    <div className="flex items-start gap-3.5">
+                      <div className={`w-11 h-11 rounded-xl ${phase.iconBg} flex items-center justify-center text-xl flex-shrink-0 mt-0.5`}>
+                        {phase.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-baseline gap-2 flex-wrap">
+                          <span className="text-[11px] font-extrabold text-rose-300 uppercase tracking-[0.1em]">
+                            Phase {phaseIdx + 1}
+                          </span>
+                          <span className="text-[11px] text-rose-200">·</span>
+                          <span className="text-[11px] font-semibold text-soft-rose/70">
+                            {phaseDone}/{phase.lessons.length} done
+                          </span>
+                        </div>
+                        <h2 className="font-serif text-xl text-rose-600 leading-tight mt-0.5">
+                          {phase.title.split("—")[1]?.trim() ?? phase.title}
+                        </h2>
+                        <p className="text-xs text-soft-rose mt-0.5 leading-relaxed">{phase.subtitle}</p>
+                      </div>
+                      {phaseDone === phase.lessons.length && (
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="flex flex-col gap-3">
                 {phase.lessons.map((lesson, lessonIdx) => (
@@ -449,10 +467,10 @@ export default function LearnPage() {
               </div>
 
               {phaseIdx < phases.length - 1 && (
-                <div className="flex items-center gap-3 mt-8 text-rose-300 text-sm">
-                  <div className="flex-1 h-px bg-rose-200" />
-                  <span>{phaseIdx === 0 ? "🌸 Great start! Now the fun begins 🌸" : "✨ Python? Ticked. Time for the cool stuff ✨"}</span>
-                  <div className="flex-1 h-px bg-rose-200" />
+                <div className="flex items-center gap-4 mt-10 text-rose-200">
+                  <div className="flex-1 h-px bg-gradient-to-r from-rose-200 to-transparent" />
+                  <span className="text-sm select-none">🌸</span>
+                  <div className="flex-1 h-px bg-gradient-to-l from-rose-200 to-transparent" />
                 </div>
               )}
             </section>
