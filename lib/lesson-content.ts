@@ -1788,4 +1788,1228 @@ print("My plan is ready! Time to build 🚀")
       "The full workflow: load data → split → train → evaluate → predict",
     ],
   },
+
+  // ── Phase 4 ──────────────────────────────────────────────
+
+  "lesson-4-1": {
+    id: "lesson-4-1",
+    objectives: [
+      "Understand what data analysis is and why it matters",
+      "Know the typical data analyst workflow",
+      "Recognise common data formats like CSV and JSON",
+    ],
+    sections: [
+      {
+        heading: "What do data analysts actually do?",
+        blocks: [
+          { type: "text", content: "Data analysts collect raw data, clean it up, and turn it into answers. A business might ask: *\"Which product sells best on Sundays?\"* or *\"Are our customers getting younger?\"* — and a data analyst figures it out using code." },
+          { type: "tip", content: "Data analysis is one of the most in-demand skills in tech. And Python is the #1 language for it — so you're already on the right path!" },
+          { type: "steps", steps: [
+            "**Collect** — get data from a file, database, or API",
+            "**Clean** — fix missing values, typos, wrong formats",
+            "**Explore** — look for patterns and interesting facts",
+            "**Visualise** — turn findings into charts anyone can understand",
+            "**Share** — present your insights to others",
+          ]},
+        ],
+      },
+      {
+        heading: "Common data formats",
+        blocks: [
+          { type: "text", content: "Data comes in many shapes. The most common formats you'll work with are:" },
+          { type: "steps", steps: [
+            "**CSV** — Comma-Separated Values. Like a simple spreadsheet. Example: `name,age,city\\nAnu,25,Mumbai`",
+            "**JSON** — JavaScript Object Notation. Nested data, like Python dictionaries. Used everywhere in APIs.",
+            "**Excel (.xlsx)** — Spreadsheet files. Pandas can read these directly.",
+            "**SQL databases** — Structured data stored in rows and tables. You query it with SQL.",
+          ]},
+          { type: "code", code: `# A CSV file looks like this when opened:
+# name,age,city
+# Anu,25,Mumbai
+# Ravi,30,Delhi
+
+# In Python (with pandas), you load it like this:
+import pandas as pd
+
+df = pd.read_csv("people.csv")
+print(df.head())   # Shows first 5 rows` },
+        ],
+      },
+      {
+        heading: "The Python data science stack",
+        blocks: [
+          { type: "text", content: "Three libraries do almost everything you need:" },
+          { type: "steps", steps: [
+            "**NumPy** — fast number crunching, arrays and maths",
+            "**Pandas** — loading, cleaning and exploring table data",
+            "**Matplotlib** — drawing charts and visualisations",
+          ]},
+          { type: "tip", content: "These three libraries work together constantly. By the end of Phase 4 you'll be comfortable using all of them." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Think of a question you'd like to answer with data — about anything you care about (movies, food, cricket scores, weather). Write it down. Then think: what data would you need, and where might you find it?",
+      starterCode: `# Imagine you have this simple dataset about your favourite films
+films = [
+    {"title": "Dilwale Dulhania Le Jayenge", "year": 1995, "rating": 9.1},
+    {"title": "3 Idiots", "year": 2009, "rating": 8.4},
+    {"title": "Dangal", "year": 2016, "rating": 8.3},
+    {"title": "Lagaan", "year": 2001, "rating": 8.1},
+]
+
+# Print each film's title and rating
+for film in films:
+    print(film["title"], "—", film["rating"])
+
+# What's the average rating?
+ratings = [f["rating"] for f in films]
+avg = sum(ratings) / len(ratings)
+print(f"\\nAverage rating: {avg:.1f}")`,
+      solutionCode: "",
+      hints: ["Use a for loop to go through the list", "Use sum() and len() to calculate the average"],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "Data analysis turns raw numbers into useful answers",
+      "The core workflow: collect → clean → explore → visualise → share",
+      "NumPy, Pandas, and Matplotlib are the essential Python data tools",
+    ],
+  },
+
+  "lesson-4-2": {
+    id: "lesson-4-2",
+    objectives: [
+      "Create and manipulate NumPy arrays",
+      "Understand why NumPy is faster than regular Python lists",
+      "Use common NumPy operations: mean, sum, min, max",
+    ],
+    sections: [
+      {
+        heading: "What is NumPy?",
+        blocks: [
+          { type: "text", content: "NumPy (Numerical Python) is a library that gives Python superfast number-crunching abilities. When you have thousands or millions of numbers to process, regular Python lists are too slow. NumPy **arrays** handle this in a fraction of the time." },
+          { type: "code", code: `import numpy as np
+
+# Create an array of numbers
+scores = np.array([85, 92, 78, 95, 88, 76, 91])
+
+print("Scores:", scores)
+print("Average:", np.mean(scores))
+print("Highest:", np.max(scores))
+print("Lowest:", np.min(scores))
+print("Total:", np.sum(scores))` },
+          { type: "tip", content: "Notice how np.mean(), np.max() etc. are much simpler than writing a loop yourself. NumPy does the heavy lifting." },
+        ],
+      },
+      {
+        heading: "Arrays vs Python lists",
+        blocks: [
+          { type: "text", content: "NumPy arrays look like Python lists but are much more powerful. The key differences:" },
+          { type: "steps", steps: [
+            "**Speed** — NumPy is up to 100× faster for maths on large datasets",
+            "**Maths** — you can add/multiply entire arrays at once without loops",
+            "**One type** — all items in an array must be the same type (e.g. all numbers)",
+          ]},
+          { type: "code", code: `import numpy as np
+
+# With a Python list, you'd need a loop:
+prices = [100, 200, 150, 300]
+discounted = [p * 0.9 for p in prices]
+
+# With NumPy, no loop needed!
+prices_arr = np.array([100, 200, 150, 300])
+discounted_arr = prices_arr * 0.9   # applies to ALL elements
+
+print("Discounted prices:", discounted_arr)` },
+        ],
+      },
+      {
+        heading: "Useful NumPy operations",
+        blocks: [
+          { type: "code", code: `import numpy as np
+
+data = np.array([3, 7, 2, 9, 4, 6, 8, 1, 5])
+
+# Statistical operations
+print("Mean:", np.mean(data))       # average
+print("Std dev:", np.std(data))     # how spread out the data is
+print("Median:", np.median(data))   # middle value
+
+# Filtering — find values above 5
+above_5 = data[data > 5]
+print("Above 5:", above_5)
+
+# Sorting
+sorted_data = np.sort(data)
+print("Sorted:", sorted_data)` },
+          { type: "tip", content: "The filtering trick `data[data > 5]` is called boolean indexing. It's one of NumPy's most useful features — and Pandas uses the same trick!" },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "You have a list of daily temperatures for a week. Use NumPy to find the average, the hottest day, the coldest day, and any days hotter than 30°C.",
+      starterCode: `import numpy as np
+
+# Daily temperatures in Celsius for one week
+temperatures = np.array([28, 31, 25, 33, 29, 27, 35])
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+# TODO: Find the average temperature
+average = # your code here
+
+# TODO: Find the hottest temperature
+hottest = # your code here
+
+# TODO: Find the coldest temperature
+coldest = # your code here
+
+print(f"Average: {average:.1f}°C")
+print(f"Hottest: {hottest}°C")
+print(f"Coldest: {coldest}°C")
+
+# TODO: Print which days were hotter than 30°C
+# Hint: use a boolean filter like temperatures[temperatures > 30]`,
+      solutionCode: `import numpy as np
+
+temperatures = np.array([28, 31, 25, 33, 29, 27, 35])
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+average = np.mean(temperatures)
+hottest = np.max(temperatures)
+coldest = np.min(temperatures)
+
+print(f"Average: {average:.1f}°C")
+print(f"Hottest: {hottest}°C")
+print(f"Coldest: {coldest}°C")
+
+hot_days = [days[i] for i, t in enumerate(temperatures) if t > 30]
+print(f"Hot days (>30°C): {hot_days}")`,
+      hints: [
+        "Use np.mean(temperatures) for the average",
+        "Use np.max() and np.min() for hottest and coldest",
+        "For days above 30°C, try: temperatures[temperatures > 30]",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "NumPy arrays are faster than Python lists for maths and number crunching",
+      "np.mean(), np.max(), np.min(), np.sum() work on entire arrays instantly",
+      "Boolean indexing (arr[arr > value]) is a powerful way to filter data",
+    ],
+  },
+
+  "lesson-4-3": {
+    id: "lesson-4-3",
+    objectives: [
+      "Load a CSV file into a Pandas DataFrame",
+      "Explore data with .head(), .info(), .describe()",
+      "Filter, sort, and select columns from a DataFrame",
+    ],
+    sections: [
+      {
+        heading: "What is Pandas?",
+        blocks: [
+          { type: "text", content: "Pandas is the most popular library for working with table data in Python. Think of it like a supercharged spreadsheet — but you control it with code. The main object is called a **DataFrame**, which is just a table with rows and columns." },
+          { type: "code", code: `import pandas as pd
+
+# Create a simple DataFrame from a dictionary
+data = {
+    "name": ["Anu", "Ravi", "Priya", "Dev"],
+    "age":  [25, 30, 27, 22],
+    "city": ["Mumbai", "Delhi", "Pune", "Chennai"],
+}
+
+df = pd.DataFrame(data)
+print(df)` },
+        ],
+      },
+      {
+        heading: "Loading and exploring data",
+        blocks: [
+          { type: "code", code: `import pandas as pd
+
+# Load a CSV file (most common way to get data)
+df = pd.read_csv("data.csv")
+
+# First look at the data
+print(df.head())       # first 5 rows
+print(df.tail(3))      # last 3 rows
+print(df.shape)        # (rows, columns)
+print(df.columns)      # column names
+print(df.info())       # data types + missing values
+print(df.describe())   # statistics for number columns` },
+          { type: "tip", content: "Always start with `.head()` and `.info()` when you load a new dataset. It tells you what you're working with before you do anything else." },
+        ],
+      },
+      {
+        heading: "Selecting, filtering, and sorting",
+        blocks: [
+          { type: "code", code: `import pandas as pd
+
+data = {
+    "name": ["Anu", "Ravi", "Priya", "Dev", "Meera"],
+    "score": [88, 72, 95, 61, 84],
+    "city": ["Mumbai", "Delhi", "Mumbai", "Chennai", "Pune"],
+}
+df = pd.DataFrame(data)
+
+# Select one column
+print(df["name"])
+
+# Select multiple columns
+print(df[["name", "score"]])
+
+# Filter rows — only Mumbai students
+mumbai = df[df["city"] == "Mumbai"]
+print(mumbai)
+
+# Sort by score (highest first)
+sorted_df = df.sort_values("score", ascending=False)
+print(sorted_df)` },
+          { type: "tip", content: "The filter syntax `df[df['column'] == value]` looks strange at first but you'll use it constantly. Read it as: 'give me all rows where city equals Mumbai'." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "You have a small dataset of students and their exam scores. Use Pandas to: (1) find all students who scored above 80, (2) find the average score, and (3) sort by score from highest to lowest.",
+      starterCode: `import pandas as pd
+
+# Student data
+data = {
+    "name": ["Anu", "Ravi", "Priya", "Dev", "Meera", "Kiran"],
+    "score": [88, 72, 95, 61, 84, 79],
+    "subject": ["Maths", "Science", "Maths", "English", "Science", "English"],
+}
+df = pd.DataFrame(data)
+
+print("All students:")
+print(df)
+print()
+
+# TODO 1: Find students who scored above 80
+high_scorers = # your code here
+print("Scored above 80:")
+print(high_scorers)
+print()
+
+# TODO 2: Find the average score
+average = # your code here
+print(f"Class average: {average:.1f}")
+print()
+
+# TODO 3: Sort by score, highest first
+sorted_df = # your code here
+print("Ranked by score:")
+print(sorted_df)`,
+      solutionCode: `import pandas as pd
+
+data = {
+    "name": ["Anu", "Ravi", "Priya", "Dev", "Meera", "Kiran"],
+    "score": [88, 72, 95, 61, 84, 79],
+    "subject": ["Maths", "Science", "Maths", "English", "Science", "English"],
+}
+df = pd.DataFrame(data)
+
+high_scorers = df[df["score"] > 80]
+average = df["score"].mean()
+sorted_df = df.sort_values("score", ascending=False)
+
+print("Scored above 80:")
+print(high_scorers)
+print(f"\\nClass average: {average:.1f}")
+print("\\nRanked by score:")
+print(sorted_df)`,
+      hints: [
+        "Filter with: df[df['score'] > 80]",
+        "Get the average with: df['score'].mean()",
+        "Sort with: df.sort_values('score', ascending=False)",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "A Pandas DataFrame is a table with rows and columns, like a spreadsheet in Python",
+      "Use .head(), .info(), .describe() to understand a new dataset quickly",
+      "Filter rows with df[df['column'] condition] and sort with .sort_values()",
+    ],
+  },
+
+  "lesson-4-4": {
+    id: "lesson-4-4",
+    objectives: [
+      "Create line charts, bar charts, and scatter plots with Matplotlib",
+      "Add titles, labels, and legends to your charts",
+      "Choose the right chart type for your data",
+    ],
+    sections: [
+      {
+        heading: "Why visualise data?",
+        blocks: [
+          { type: "text", content: "Numbers in a table are hard to understand at a glance. A well-made chart can reveal a trend, pattern, or outlier in seconds. Visualisation is how data analysts communicate their findings to everyone else — including people who don't code." },
+          { type: "tip", content: "In real data science jobs, creating clear charts is just as important as writing correct code. A brilliant insight no one can understand is useless!" },
+        ],
+      },
+      {
+        heading: "Your first chart — line chart",
+        blocks: [
+          { type: "code", code: `import matplotlib.pyplot as plt
+
+# Data: monthly sales figures
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+sales  = [1200, 1800, 1500, 2200, 1900, 2500]
+
+# Create the chart
+plt.figure(figsize=(8, 4))
+plt.plot(months, sales, marker="o", color="hotpink", linewidth=2)
+
+# Labels and title
+plt.title("Monthly Sales 2024")
+plt.xlabel("Month")
+plt.ylabel("Sales (₹)")
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()` },
+          { type: "tip", content: "Line charts are best for data that changes over time — sales, temperature, stock prices, etc." },
+        ],
+      },
+      {
+        heading: "Bar charts and scatter plots",
+        blocks: [
+          { type: "code", code: `import matplotlib.pyplot as plt
+
+# Bar chart — comparing categories
+subjects = ["Maths", "Science", "English", "History"]
+scores   = [88, 92, 75, 81]
+
+plt.figure(figsize=(7, 4))
+plt.bar(subjects, scores, color=["hotpink", "violet", "plum", "orchid"])
+plt.title("Exam Scores by Subject")
+plt.ylabel("Score")
+plt.ylim(0, 100)
+plt.show()` },
+          { type: "code", code: `import matplotlib.pyplot as plt
+
+# Scatter plot — finding relationships between two variables
+study_hours = [1, 2, 3, 4, 5, 6, 7, 8]
+exam_scores = [55, 60, 65, 72, 78, 85, 88, 95]
+
+plt.figure(figsize=(7, 4))
+plt.scatter(study_hours, exam_scores, color="hotpink", s=80)
+plt.title("Study Hours vs Exam Score")
+plt.xlabel("Hours studied")
+plt.ylabel("Score")
+plt.show()` },
+          { type: "tip", content: "Bar charts compare categories. Scatter plots reveal relationships between two numeric variables — like 'do students who study more score higher?'" },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Create a bar chart showing the population of 5 Indian cities. Add a title, axis labels, and use different colours for each bar.",
+      starterCode: `import matplotlib.pyplot as plt
+
+# Population of major Indian cities (in millions)
+cities = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai"]
+population = [20.7, 32.9, 13.2, 10.5, 11.5]
+
+# TODO: Create a bar chart
+# 1. Create a figure: plt.figure(figsize=(8, 5))
+# 2. Plot bars: plt.bar(cities, population, color=[...])
+# 3. Add title: plt.title("...")
+# 4. Add axis labels: plt.xlabel("..."), plt.ylabel("...")
+# 5. Show it: plt.show()
+
+# Your code here:`,
+      solutionCode: `import matplotlib.pyplot as plt
+
+cities = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai"]
+population = [20.7, 32.9, 13.2, 10.5, 11.5]
+
+plt.figure(figsize=(8, 5))
+plt.bar(cities, population, color=["hotpink", "violet", "plum", "orchid", "pink"])
+plt.title("Population of Major Indian Cities (Millions)")
+plt.xlabel("City")
+plt.ylabel("Population (Millions)")
+plt.tight_layout()
+plt.show()`,
+      hints: [
+        "Start with plt.figure(figsize=(8,5)) to set the size",
+        "Use plt.bar(cities, population) for the bars",
+        "Add plt.title(), plt.xlabel(), plt.ylabel() for labels",
+        "End with plt.show() to display the chart",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "Line charts show trends over time; bar charts compare categories; scatter plots find relationships",
+      "Always add titles and axis labels — a chart without labels is meaningless to others",
+      "plt.figure(), plt.plot/bar/scatter(), then plt.show() is the basic Matplotlib workflow",
+    ],
+  },
+
+  "lesson-4-5": {
+    id: "lesson-4-5",
+    objectives: [
+      "Load and explore a real-world dataset end to end",
+      "Clean and summarise the data using Pandas",
+      "Create at least two meaningful charts from the data",
+    ],
+    sections: [
+      {
+        heading: "The full data analysis workflow",
+        blocks: [
+          { type: "text", content: "You've learned NumPy, Pandas, and Matplotlib separately. Now it's time to combine them into a real project. Data scientists follow this same workflow every single time:" },
+          { type: "steps", steps: [
+            "**Load** — read a CSV file into a DataFrame",
+            "**Inspect** — use .head(), .info(), .describe() to understand what you have",
+            "**Clean** — handle missing values, fix data types",
+            "**Explore** — ask questions and compute answers",
+            "**Visualise** — make charts to show what you found",
+          ]},
+        ],
+      },
+      {
+        heading: "Cleaning data — the most important skill",
+        blocks: [
+          { type: "text", content: "Real data is messy. Values are missing, columns have wrong types, text has typos. Cleaning data is usually 60–80% of a data analyst's job." },
+          { type: "code", code: `import pandas as pd
+
+# Simulate a messy dataset
+data = {
+    "name":  ["Anu", "Ravi", None, "Dev", "Priya"],
+    "score": [88, None, 79, 61, 95],
+    "grade": ["A", "B", "B", "C", "A"],
+}
+df = pd.DataFrame(data)
+
+# Check for missing values
+print(df.isnull().sum())
+
+# Fill missing score with the average
+avg_score = df["score"].mean()
+df["score"] = df["score"].fillna(avg_score)
+
+# Drop rows where name is missing
+df = df.dropna(subset=["name"])
+
+print(df)` },
+          { type: "tip", content: "fillna() replaces missing values. dropna() removes rows with missing values. Which one you use depends on the situation." },
+        ],
+      },
+      {
+        heading: "A complete mini-analysis",
+        blocks: [
+          { type: "code", code: `import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample dataset: student results
+data = {
+    "subject": ["Maths", "Science", "English", "History", "Maths",
+                 "Science", "English", "History"],
+    "score":   [88, 92, 75, 81, 95, 78, 82, 69],
+    "term":    ["Term 1"] * 4 + ["Term 2"] * 4,
+}
+df = pd.DataFrame(data)
+
+# Average score by subject
+avg_by_subject = df.groupby("subject")["score"].mean()
+print("Average by subject:")
+print(avg_by_subject)
+
+# Bar chart
+avg_by_subject.plot(kind="bar", color="hotpink", figsize=(6, 4))
+plt.title("Average Score by Subject")
+plt.ylabel("Score")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()` },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Analyse the sample book dataset below. Find: (1) the most popular genre, (2) the average rating by genre, and (3) create a bar chart of average ratings. Use what you've learned from the whole phase!",
+      starterCode: `import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample dataset: books
+data = {
+    "title": [
+        "The Alchemist", "Sapiens", "Atomic Habits",
+        "Dune", "1984", "Educated", "Thinking Fast and Slow"
+    ],
+    "genre": [
+        "Fiction", "Non-Fiction", "Self-Help",
+        "Fiction", "Fiction", "Non-Fiction", "Self-Help"
+    ],
+    "rating": [4.7, 4.4, 4.8, 4.6, 4.5, 4.7, 4.3],
+}
+df = pd.DataFrame(data)
+
+print(df)
+print()
+
+# TODO 1: Which genre has the most books?
+# Hint: df["genre"].value_counts()
+genre_counts = # your code
+print("Books per genre:")
+print(genre_counts)
+
+# TODO 2: Average rating by genre
+# Hint: df.groupby("genre")["rating"].mean()
+avg_ratings = # your code
+print("\\nAverage rating by genre:")
+print(avg_ratings)
+
+# TODO 3: Bar chart of average ratings
+# avg_ratings.plot(kind="bar", ...) then plt.show()`,
+      solutionCode: `import pandas as pd
+import matplotlib.pyplot as plt
+
+data = {
+    "title": ["The Alchemist","Sapiens","Atomic Habits","Dune","1984","Educated","Thinking Fast and Slow"],
+    "genre": ["Fiction","Non-Fiction","Self-Help","Fiction","Fiction","Non-Fiction","Self-Help"],
+    "rating": [4.7, 4.4, 4.8, 4.6, 4.5, 4.7, 4.3],
+}
+df = pd.DataFrame(data)
+
+genre_counts = df["genre"].value_counts()
+avg_ratings = df.groupby("genre")["rating"].mean()
+
+print("Books per genre:")
+print(genre_counts)
+print("\\nAverage rating by genre:")
+print(avg_ratings)
+
+avg_ratings.plot(kind="bar", color=["hotpink","violet","plum"], figsize=(6,4))
+plt.title("Average Book Rating by Genre")
+plt.ylabel("Rating")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()`,
+      hints: [
+        "Use df['genre'].value_counts() to count books per genre",
+        "Use df.groupby('genre')['rating'].mean() for average ratings",
+        "Call avg_ratings.plot(kind='bar') — Pandas DataFrames can plot directly!",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "The full data workflow: load → inspect → clean → explore → visualise",
+      "Real data is always messy — cleaning is 60–80% of the job",
+      "groupby() is one of Pandas' most powerful tools for summarising data",
+    ],
+  },
+
+  // ── Phase 5 ──────────────────────────────────────────────
+
+  "lesson-5-1": {
+    id: "lesson-5-1",
+    objectives: [
+      "Understand the difference between rule-based and AI-powered chatbots",
+      "Know how large language models (LLMs) like ChatGPT work at a high level",
+      "Recognise where chatbots are used in real life",
+    ],
+    sections: [
+      {
+        heading: "Two types of chatbots",
+        blocks: [
+          { type: "text", content: "Not all chatbots are the same. They fall into two big categories:" },
+          { type: "steps", steps: [
+            "**Rule-based** — the bot follows a script. If the user says X, reply with Y. Simple, predictable, but limited.",
+            "**AI-powered** — the bot uses a language model that understands natural language. It can handle anything you throw at it.",
+          ]},
+          { type: "tip", content: "WhatsApp business bots and customer service menus are often rule-based. ChatGPT, Gemini, and Claude are AI-powered." },
+        ],
+      },
+      {
+        heading: "How LLMs work (simply)",
+        blocks: [
+          { type: "text", content: "A Large Language Model (LLM) is trained on billions of pieces of text from the internet, books, and code. It learns patterns: what words tend to follow other words, how sentences are structured, how questions are typically answered." },
+          { type: "text", content: "When you send a message, the model predicts the most likely next words — over and over — until it forms a complete, useful reply. It's not \"thinking\" the way humans do, but the results are remarkably good." },
+          { type: "tip", content: "You don't need to understand the maths behind LLMs to use them. The OpenAI API lets you call GPT-4 with just a few lines of Python — exactly what you'll do in Lesson 5-3." },
+        ],
+      },
+      {
+        heading: "Chatbots you interact with every day",
+        blocks: [
+          { type: "steps", steps: [
+            "**Customer support** — websites use chatbots to answer FAQs instantly",
+            "**Virtual assistants** — Siri, Google Assistant, Alexa",
+            "**Study tools** — Khan Academy's Khanmigo tutor",
+            "**Coding help** — GitHub Copilot, Cursor",
+            "**Health** — some hospitals use chatbots for appointment booking and symptom checking",
+          ]},
+          { type: "text", content: "By the end of this phase, you'll have built your own version of all of the above — a chatbot you can have a real conversation with." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Think of three chatbot ideas you'd personally find useful. Write them below as comments in the code editor. Then try to classify each as: would this need rule-based logic, AI, or both?",
+      starterCode: `# My chatbot ideas:
+
+# Idea 1:
+# Description:
+# Type (rule-based / AI / both):
+
+# Idea 2:
+# Description:
+# Type (rule-based / AI / both):
+
+# Idea 3:
+# Description:
+# Type (rule-based / AI / both):
+
+# Example:
+# Idea: A recipe chatbot that suggests dishes based on ingredients I have at home
+# Type: AI — because it needs to understand natural language and be creative`,
+      solutionCode: "",
+      hints: [],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "Rule-based chatbots follow scripts; AI chatbots understand natural language",
+      "LLMs work by predicting the most likely next words based on training data",
+      "You don't need to understand the maths — you just need to know how to use the API",
+    ],
+  },
+
+  "lesson-5-2": {
+    id: "lesson-5-2",
+    objectives: [
+      "Build a working chatbot using if/else logic",
+      "Handle user input and produce appropriate responses",
+      "Understand the limitations of rule-based chatbots",
+    ],
+    sections: [
+      {
+        heading: "Your first chatbot",
+        blocks: [
+          { type: "text", content: "A rule-based chatbot is just a program that checks what the user said and picks a response. It's not intelligent — but it's a great way to learn how conversation flow works in code." },
+          { type: "code", code: `def chatbot(message):
+    message = message.lower().strip()
+
+    if "hello" in message or "hi" in message:
+        return "Hello! 🌸 How can I help you today?"
+
+    elif "your name" in message:
+        return "I'm RosieBot — your friendly study assistant!"
+
+    elif "help" in message:
+        return "I can answer questions about Python and AI. What would you like to know?"
+
+    elif "bye" in message or "goodbye" in message:
+        return "Goodbye! Happy coding! 💻"
+
+    else:
+        return "Hmm, I'm not sure about that. Try asking something else!"
+
+# Test the chatbot
+print(chatbot("Hello there!"))
+print(chatbot("What is your name?"))
+print(chatbot("I need help"))
+print(chatbot("See you later!"))` },
+        ],
+      },
+      {
+        heading: "Making it more conversational",
+        blocks: [
+          { type: "code", code: `import random
+
+def chatbot(message):
+    message = message.lower().strip()
+
+    greetings = ["Hello! 🌸", "Hi there! 👋", "Hey! Great to see you!"]
+    farewells  = ["Bye! Happy coding! 💻", "See you soon! 🌷", "Goodbye! Keep learning!"]
+
+    if any(word in message for word in ["hi", "hello", "hey"]):
+        return random.choice(greetings)
+
+    elif any(word in message for word in ["bye", "goodbye", "see you"]):
+        return random.choice(farewells)
+
+    elif "python" in message:
+        return "Python is amazing! 🐍 It's the best language for beginners and AI."
+
+    elif "ai" in message or "machine learning" in message:
+        return "AI is the future! 🤖 And you're already on your way to learning it."
+
+    else:
+        return "Interesting! Tell me more... 🤔"
+
+# Try it
+messages = ["Hello!", "Tell me about Python", "What about AI?", "Goodbye!"]
+for msg in messages:
+    print(f"You: {msg}")
+    print(f"Bot: {chatbot(msg)}")
+    print()` },
+          { type: "tip", content: "`random.choice()` picks a random item from a list — great for making your bot feel less robotic!" },
+        ],
+      },
+      {
+        heading: "The limitations of rule-based bots",
+        blocks: [
+          { type: "text", content: "Rule-based chatbots break the moment someone says something you didn't anticipate. They can't handle:" },
+          { type: "steps", steps: [
+            "Typos — 'helo' won't match 'hello'",
+            "Synonyms — 'Hey' might work, but 'Howdy' won't",
+            "Complex questions — 'What's the best way to learn Python for AI?' has no scripted answer",
+            "Context — the bot forgets what was said earlier",
+          ]},
+          { type: "text", content: "This is exactly why we need AI-powered chatbots. In Lesson 5-3, you'll use the OpenAI API to handle all of this automatically." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Build your own rule-based chatbot below. Give it at least 5 different responses covering: greetings, your name, a topic you care about, a question about coding, and farewells. Make it fun!",
+      starterCode: `import random
+
+def my_chatbot(message):
+    message = message.lower().strip()
+
+    # TODO: Add at least 5 response rules
+    # Greetings
+    if "hello" in message or "hi" in message:
+        return "Hello! 🌸"
+
+    # Your name
+    elif "name" in message:
+        return "I'm ..." # give your bot a name!
+
+    # Topic you care about (food, movies, cricket...)
+    elif "..." in message:
+        return "..."
+
+    # Coding question
+    elif "code" in message or "python" in message:
+        return "..."
+
+    # Farewell
+    elif "bye" in message:
+        return "Goodbye! 🌷"
+
+    # Default
+    else:
+        return "I don't understand that yet! Try something else."
+
+# Test your chatbot here!
+test_messages = ["Hello!", "What's your name?", "Tell me about...", "Bye!"]
+for msg in test_messages:
+    print(f"You: {msg}")
+    print(f"Bot: {my_chatbot(msg)}")
+    print()`,
+      solutionCode: "",
+      hints: [
+        "Use 'in message' to check if a word appears anywhere in the user's input",
+        "random.choice([...]) picks a random reply from a list — makes the bot feel natural",
+        "Add more elif branches for more topics",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "A rule-based chatbot uses if/else to match inputs to responses",
+      "Use .lower() and .strip() to normalise user input before checking it",
+      "Rule-based bots are predictable but brittle — any unexpected input breaks them",
+    ],
+  },
+
+  "lesson-5-3": {
+    id: "lesson-5-3",
+    objectives: [
+      "Understand what an API is and how to use one",
+      "Send a message to OpenAI's API and get a response back",
+      "Understand the role of the system prompt",
+    ],
+    sections: [
+      {
+        heading: "What is an API?",
+        blocks: [
+          { type: "text", content: "An API (Application Programming Interface) is a way for your code to talk to someone else's code over the internet. You send a request with some data, and you get a response back — like ordering food via an app." },
+          { type: "text", content: "The OpenAI API lets your Python program talk directly to GPT-4. You send it a message; it sends back a reply. That's it. The hard part (training the model) is already done — you just use it." },
+          { type: "tip", content: "To use the OpenAI API, you need an API key from platform.openai.com. There's a small cost per request, but it's very cheap for learning (a few pence per conversation)." },
+        ],
+      },
+      {
+        heading: "Your first API call",
+        blocks: [
+          { type: "code", code: `# First: install the library
+# pip install openai
+
+from openai import OpenAI
+
+# Your API key goes here (keep it secret!)
+client = OpenAI(api_key="your-api-key-here")
+
+# Send a message and get a reply
+response = client.chat.completions.create(
+    model="gpt-4o-mini",   # cheap and fast model
+    messages=[
+        {"role": "user", "content": "What is Python in one sentence?"}
+    ]
+)
+
+# Extract the reply text
+reply = response.choices[0].message.content
+print(reply)` },
+          { type: "warning", content: "Never share your API key publicly or commit it to GitHub. Keep it in a .env file or enter it manually. Anyone with your key can spend your money." },
+        ],
+      },
+      {
+        heading: "The system prompt — giving your bot a personality",
+        blocks: [
+          { type: "text", content: "The **system prompt** is a secret instruction you give the model before the conversation starts. It tells the model who it is, how to behave, and what to focus on. This is how you create a custom chatbot personality." },
+          { type: "code", code: `from openai import OpenAI
+
+client = OpenAI(api_key="your-api-key-here")
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {
+            "role": "system",
+            "content": (
+                "You are RosieBot, a friendly and encouraging coding tutor. "
+                "You explain things simply, use emojis occasionally, "
+                "and always cheer the student on. Keep answers short and clear."
+            )
+        },
+        {
+            "role": "user",
+            "content": "What is a variable?"
+        }
+    ]
+)
+
+print(response.choices[0].message.content)` },
+          { type: "tip", content: "The system prompt is the most powerful tool you have. A well-written system prompt can turn a general AI into a specialist for any topic." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Write a system prompt for a chatbot with a specific personality and purpose (e.g. a recipe assistant, a study buddy, a movie recommender). Then describe what messages you'd test it with.",
+      starterCode: `# Design your chatbot's system prompt
+# Think about:
+# - What is this bot called?
+# - What is its purpose?
+# - What tone does it use? (friendly, professional, funny?)
+# - What should it NOT do?
+
+MY_SYSTEM_PROMPT = """
+You are [NAME], a [description].
+Your job is to [purpose].
+Your tone is [tone].
+Keep your answers [length/style].
+"""
+
+# What test messages would you send?
+TEST_MESSAGES = [
+    "Hello! What can you do?",
+    # Add more...
+]
+
+for msg in TEST_MESSAGES:
+    print(f"Test: {msg}")
+    # In Lesson 5-4 you'll connect this to the real API!`,
+      solutionCode: "",
+      hints: [
+        "Be specific in your system prompt — vague instructions give vague results",
+        "Include the bot's name, purpose, tone, and any limits (e.g. 'only talk about cooking')",
+        "Good system prompts are 2-5 sentences long",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "An API lets your code talk to another service over the internet",
+      "The OpenAI API lets you send messages to GPT and get intelligent replies",
+      "The system prompt defines your chatbot's personality, purpose, and behaviour",
+    ],
+  },
+
+  "lesson-5-4": {
+    id: "lesson-5-4",
+    objectives: [
+      "Build a chatbot that remembers the conversation history",
+      "Understand why conversation history matters for context",
+      "Create a full chat loop in Python",
+    ],
+    sections: [
+      {
+        heading: "Why memory matters",
+        blocks: [
+          { type: "text", content: "If you ask ChatGPT 'Who is the president of France?' and then ask 'How old is he?', it knows what 'he' refers to — because it remembers the previous message. Without memory, each message is treated in isolation and the bot seems forgetful and frustrating." },
+          { type: "text", content: "The OpenAI API doesn't store memory for you — you have to pass the full conversation history with every request. This sounds tedious but it's actually simple: just keep a list of all messages and send it each time." },
+        ],
+      },
+      {
+        heading: "Building a chatbot with memory",
+        blocks: [
+          { type: "code", code: `from openai import OpenAI
+
+client = OpenAI(api_key="your-api-key-here")
+
+# Start with the system prompt in the history
+conversation = [
+    {
+        "role": "system",
+        "content": "You are a friendly study assistant called RosieBot. Be helpful, warm, and concise."
+    }
+]
+
+def chat(user_message):
+    # Add user message to history
+    conversation.append({"role": "user", "content": user_message})
+
+    # Send FULL conversation to the API
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation
+    )
+
+    reply = response.choices[0].message.content
+
+    # Add bot reply to history so it's remembered next time
+    conversation.append({"role": "assistant", "content": reply})
+
+    return reply
+
+# Conversation with memory
+print(chat("Hi! My name is Anu."))
+print(chat("What's my name?"))   # It will remember!
+print(chat("Can you help me understand loops in Python?"))` },
+          { type: "tip", content: "The pattern is always: append user message → call API with full history → append response → repeat. This gives your bot perfect memory." },
+        ],
+      },
+      {
+        heading: "A full interactive chat loop",
+        blocks: [
+          { type: "code", code: `from openai import OpenAI
+
+client = OpenAI(api_key="your-api-key-here")
+
+conversation = [
+    {"role": "system", "content": "You are RosieBot, a friendly coding tutor. Be warm, encouraging, and keep answers brief."}
+]
+
+print("RosieBot 🌸 — type 'quit' to exit")
+print("-" * 40)
+
+while True:
+    user_input = input("You: ").strip()
+
+    if not user_input:
+        continue
+    if user_input.lower() in ["quit", "exit", "bye"]:
+        print("RosieBot: Goodbye! Keep coding! 🌷")
+        break
+
+    conversation.append({"role": "user", "content": user_input})
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation
+    )
+
+    reply = response.choices[0].message.content
+    conversation.append({"role": "assistant", "content": reply})
+
+    print(f"RosieBot: {reply}")
+    print()` },
+          { type: "warning", content: "The conversation list grows with every message. For very long chats you may want to trim old messages to stay within the model's context limit — but for learning purposes this is fine." },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "Add a feature to the chatbot below: when the user types 'history', print all the previous messages in the conversation. This is a great way to see how memory works under the hood.",
+      starterCode: `from openai import OpenAI
+
+client = OpenAI(api_key="your-api-key-here")
+
+conversation = [
+    {"role": "system", "content": "You are a helpful assistant. Be friendly and concise."}
+]
+
+def chat(user_message):
+    # TODO: Handle the special 'history' command
+    if user_message.lower() == "history":
+        # Print each message in the conversation (skip the system prompt)
+        for msg in conversation[1:]:
+            role = "You" if msg["role"] == "user" else "Bot"
+            print(f"{role}: {msg['content']}")
+        return None   # no API call needed
+
+    conversation.append({"role": "user", "content": user_message})
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation
+    )
+    reply = response.choices[0].message.content
+    conversation.append({"role": "assistant", "content": reply})
+    return reply
+
+# Test it
+reply = chat("Hi! My name is Anu.")
+if reply: print(f"Bot: {reply}")
+
+reply = chat("What's 2 + 2?")
+if reply: print(f"Bot: {reply}")
+
+# Now check the history!
+print("\\n--- Conversation History ---")
+chat("history")`,
+      solutionCode: "",
+      hints: [
+        "Check if user_message == 'history' before making the API call",
+        "Loop through conversation[1:] to skip the system prompt",
+        "Use msg['role'] to tell apart 'user' and 'assistant' messages",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "Chatbot memory = passing the full conversation history with every API call",
+      "Keep a list of messages and append each new user/assistant message to it",
+      "The roles are: 'system' (personality), 'user' (human), 'assistant' (bot)",
+    ],
+  },
+
+  "lesson-5-5": {
+    id: "lesson-5-5",
+    objectives: [
+      "Write a powerful system prompt that gives your chatbot a unique personality",
+      "Build and test your finished chatbot end to end",
+      "Know where to go next to share your chatbot with the world",
+    ],
+    sections: [
+      {
+        heading: "The power of a great system prompt",
+        blocks: [
+          { type: "text", content: "The system prompt is everything. The exact same GPT model can be a warm cooking assistant, a strict grammar teacher, or a hilarious comedian — just by changing a few sentences. This is called **prompt engineering** and it's a genuinely valuable skill." },
+          { type: "code", code: `# Example: a recipe chatbot system prompt
+RECIPE_BOT_PROMPT = """
+You are ChefBot 🍳, an enthusiastic and knowledgeable cooking assistant.
+Your job is to help users find recipes, suggest ingredient substitutions,
+and explain cooking techniques clearly.
+
+Rules:
+- Always suggest recipes based on ingredients the user mentions
+- Be warm, encouraging, and use food emojis occasionally
+- Keep recipes simple and beginner-friendly
+- If asked about non-food topics, gently redirect to cooking
+"""
+
+# Example: a study buddy
+STUDY_BOT_PROMPT = """
+You are Rosie 🌸, a patient and encouraging study companion for someone
+learning Python and AI from scratch.
+
+Rules:
+- Explain concepts simply, as if talking to a complete beginner
+- Use real-life analogies (cooking, shopping, etc.) to explain code concepts
+- Always celebrate progress and be kind about mistakes
+- Keep explanations short — no more than 3-4 sentences unless asked for more
+"""` },
+          { type: "tip", content: "Great system prompts include: who the bot is, what it does, what tone it uses, and what it should/shouldn't do. Specific rules produce better results." },
+        ],
+      },
+      {
+        heading: "Building your finished chatbot",
+        blocks: [
+          { type: "code", code: `from openai import OpenAI
+
+# Your completed, personalised chatbot
+# Replace the system prompt with YOUR chatbot's personality!
+
+client = OpenAI(api_key="your-api-key-here")
+
+MY_BOT_PROMPT = """
+You are [YOUR BOT NAME] 🌸, a [description].
+Your purpose is to [main job].
+Your tone is [warm/funny/professional/etc].
+Keep answers [short/detailed/etc].
+"""
+
+conversation = [{"role": "system", "content": MY_BOT_PROMPT}]
+
+def chat(user_message):
+    conversation.append({"role": "user", "content": user_message})
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation,
+        max_tokens=300,
+        temperature=0.8,   # 0 = predictable, 1 = creative
+    )
+    reply = response.choices[0].message.content
+    conversation.append({"role": "assistant", "content": reply})
+    return reply
+
+# Test your chatbot!
+print(chat("Hello! What can you do?"))
+print(chat("Give me a quick tip for today."))` },
+          { type: "tip", content: "`temperature` controls creativity. 0.0 = very consistent and factual, 1.0 = more varied and creative. For a tutor, use 0.3–0.5. For a creative assistant, use 0.7–0.9." },
+        ],
+      },
+      {
+        heading: "What's next — sharing your chatbot",
+        blocks: [
+          { type: "text", content: "Once you're happy with your chatbot, you can turn it into a real web app that anyone can use — without any coding knowledge." },
+          { type: "steps", steps: [
+            "**Streamlit** — turn a Python script into a web app in 10 lines of code. Free to deploy.",
+            "**Hugging Face Spaces** — free hosting for AI apps, used by millions of developers.",
+            "**Gradio** — another quick way to build a chat UI around your Python chatbot.",
+          ]},
+          { type: "text", content: "Congratulations — you've gone from 'I don't know computers' all the way to building an AI chatbot. That is genuinely impressive. 🌸" },
+        ],
+      },
+    ],
+    exercise: {
+      prompt: "This is your final project for the whole course! Build your chatbot below with a personality you actually care about. Give it a name, write a detailed system prompt, and test it with at least 5 different messages. Make it yours!",
+      starterCode: `from openai import OpenAI
+
+client = OpenAI(api_key="your-api-key-here")
+
+# ✏️ Write your own system prompt!
+MY_BOT_NAME = "..."
+MY_BOT_PROMPT = """
+You are ..., a ...
+Your job is to ...
+Your tone is ...
+"""
+
+conversation = [{"role": "system", "content": MY_BOT_PROMPT}]
+
+def chat(user_message):
+    conversation.append({"role": "user", "content": user_message})
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation,
+        max_tokens=300,
+        temperature=0.7,
+    )
+    reply = response.choices[0].message.content
+    conversation.append({"role": "assistant", "content": reply})
+    return reply
+
+# 🧪 Test your chatbot with 5+ different messages
+test_messages = [
+    "Hello! Who are you?",
+    # Add more messages here...
+]
+
+print(f"=== {MY_BOT_NAME} ===")
+for msg in test_messages:
+    print(f"You: {msg}")
+    print(f"Bot: {chat(msg)}")
+    print()`,
+      solutionCode: "",
+      hints: [
+        "Make the system prompt specific — the more detail, the better the personality",
+        "Test edge cases: what happens if someone asks something off-topic?",
+        "Try different temperature values and see how the responses change",
+      ],
+      hasCodeEditor: true,
+    },
+    keyTakeaways: [
+      "The system prompt is the most powerful tool for shaping your chatbot's behaviour",
+      "temperature controls creativity: lower = consistent, higher = varied",
+      "Streamlit and Gradio can turn your Python chatbot into a shareable web app",
+    ],
+  },
 };

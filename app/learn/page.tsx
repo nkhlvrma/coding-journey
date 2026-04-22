@@ -14,7 +14,7 @@ import {
 import { phases, allLessonIds, motivationalQuotes } from "@/lib/data";
 import type { Profile } from "@/lib/supabase/queries";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Circle, ChevronDown, ChevronUp, ArrowRight, Flame } from "lucide-react";
+import { CheckCircle2, Circle, ChevronDown, ChevronUp, ArrowRight, Flame, Search, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Phase celebration modal
@@ -69,6 +69,7 @@ export default function LearnPage() {
   const [activePhase, setActivePhase] = useState("phase-1");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [celebratingPhase, setCelebratingPhase] = useState<{ icon: string; title: string } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const phaseRefs = useRef<Record<string, HTMLElement | null>>({});
 
   useEffect(() => {
@@ -129,6 +130,22 @@ export default function LearnPage() {
   };
 
   const progressPct = Math.round((completedLessons.length / allLessonIds.length) * 100);
+
+  // Search — match against lesson title, description, and tag labels
+  const searchResults = searchQuery.trim()
+    ? phases.flatMap((phase) =>
+        phase.lessons
+          .filter((l) => {
+            const q = searchQuery.toLowerCase();
+            return (
+              l.title.toLowerCase().includes(q) ||
+              l.description.toLowerCase().includes(q) ||
+              l.tags.some((t) => t.label.toLowerCase().includes(q))
+            );
+          })
+          .map((l) => ({ lesson: l, phase }))
+      )
+    : [];
 
   // First incomplete lesson for "Continue learning" button
   const nextLesson = allLessonIds.find((id) => !completedLessons.includes(id));
@@ -213,6 +230,57 @@ export default function LearnPage() {
             </motion.span>
           ))}
         </motion.div>
+      </div>
+
+      {/* Search bar */}
+      <div className="bg-white/80 border-b border-rose-100 px-4 py-3">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative max-w-lg mx-auto">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-300 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search lessons…"
+              className="w-full pl-9 pr-9 py-2.5 rounded-full border-2 border-rose-200 bg-rose-50/50 text-sm text-text-rose placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-300 transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-300 hover:text-rose-500"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {searchQuery.trim() && (
+            <div className="mt-3 max-w-lg mx-auto">
+              {searchResults.length === 0 ? (
+                <p className="text-center text-sm text-soft-rose py-2">No lessons found for "{searchQuery}"</p>
+              ) : (
+                <div className="space-y-2">
+                  {searchResults.map(({ lesson, phase }) => (
+                    <Link key={lesson.id} href={`/learn/${lesson.id}`}>
+                      <div className="flex items-center gap-3 bg-white rounded-xl border border-rose-100 px-3 py-2.5 hover:border-rose-300 hover:shadow-sm transition-all group">
+                        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center text-base flex-shrink-0", phase.iconBg)}>
+                          {phase.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-text-rose truncate group-hover:text-rose-600">{lesson.title}</p>
+                          <p className="text-xs text-soft-rose truncate">{lesson.description}</p>
+                        </div>
+                        {completedLessons.includes(lesson.id) && (
+                          <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Sticky progress */}

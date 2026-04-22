@@ -158,3 +158,28 @@ export async function saveSnippet(lessonId: string, code: string) {
     { onConflict: "user_id,lesson_id" }
   );
 }
+
+// ── Lesson notes ─────────────────────────────────────────────
+
+export async function getNote(lessonId: string): Promise<string | null> {
+  const sb = createClient();
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return null;
+  const { data } = await sb
+    .from("lesson_notes")
+    .select("content")
+    .eq("user_id", user.id)
+    .eq("lesson_id", lessonId)
+    .single();
+  return data?.content ?? null;
+}
+
+export async function saveNote(lessonId: string, content: string) {
+  const sb = createClient();
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return;
+  return sb.from("lesson_notes").upsert(
+    { user_id: user.id, lesson_id: lessonId, content, updated_at: new Date().toISOString() },
+    { onConflict: "user_id,lesson_id" }
+  );
+}

@@ -419,6 +419,232 @@ export const phases: Phase[] = [
       },
     ],
   },
+  {
+    id: "phase-4",
+    icon: "📊",
+    iconBg: "bg-blue-100",
+    title: "Phase 4 — Data Analysis",
+    subtitle: "Turn raw numbers into beautiful charts and real insights",
+    lessons: [
+      {
+        id: "lesson-4-1",
+        title: "What is data analysis, and why does it matter?",
+        description:
+          "Before writing code, understand what data analysts actually do and why Python is the #1 tool for it. You'll see how data powers every app, business, and AI system.",
+        tags: [
+          { label: "Data", color: "blue" },
+          { label: "Concepts", color: "yellow" },
+        ],
+        resources: [
+          {
+            icon: "📖",
+            label: "Kaggle — What is Data Analysis? (beginner guide)",
+            url: "https://www.kaggle.com/learn/data-visualization",
+          },
+        ],
+      },
+      {
+        id: "lesson-4-2",
+        title: "NumPy — crunching numbers fast",
+        description:
+          "NumPy lets you work with huge lists of numbers at lightning speed. It's the foundation of almost all data science and AI in Python.",
+        tags: [
+          { label: "Data", color: "blue" },
+          { label: "NumPy", color: "green" },
+          { label: "Libraries", color: "yellow" },
+        ],
+        resources: [
+          {
+            icon: "📖",
+            label: "NumPy official quickstart — highly readable",
+            url: "https://numpy.org/doc/stable/user/quickstart.html",
+          },
+          {
+            icon: "🎓",
+            label: "Kaggle — NumPy exercises (hands-on!)",
+            url: "https://www.kaggle.com/learn/intro-to-programming",
+          },
+        ],
+      },
+      {
+        id: "lesson-4-3",
+        title: "Pandas — spreadsheets, but in Python",
+        description:
+          "Pandas lets you load, filter, sort, and transform data like a supercharged Excel. You'll use it in almost every data project you ever build.",
+        tags: [
+          { label: "Data", color: "blue" },
+          { label: "Pandas", color: "green" },
+          { label: "Libraries", color: "yellow" },
+        ],
+        resources: [
+          {
+            icon: "🐼",
+            label: "Kaggle — free Pandas course (interactive!)",
+            url: "https://www.kaggle.com/learn/pandas",
+          },
+          {
+            icon: "📖",
+            label: "Pandas official 10-minute intro",
+            url: "https://pandas.pydata.org/docs/user_guide/10min.html",
+          },
+        ],
+      },
+      {
+        id: "lesson-4-4",
+        title: "Matplotlib — turning data into beautiful charts",
+        description:
+          "A picture is worth a thousand numbers. Learn to create line charts, bar charts, and scatter plots that make your data tell a story.",
+        tags: [
+          { label: "Data", color: "blue" },
+          { label: "Charts", color: "purple" },
+          { label: "Libraries", color: "yellow" },
+        ],
+        resources: [
+          {
+            icon: "📊",
+            label: "Matplotlib — official beginner tutorials",
+            url: "https://matplotlib.org/stable/tutorials/index.html",
+          },
+          {
+            icon: "🎓",
+            label: "Kaggle — Data Visualisation course (free)",
+            url: "https://www.kaggle.com/learn/data-visualization",
+          },
+        ],
+      },
+      {
+        id: "lesson-4-5",
+        title: "Mini project — analyse a real dataset",
+        description:
+          "Put it all together: load a real-world dataset, clean it with Pandas, and visualise what you find with Matplotlib. This is exactly what data scientists do every day.",
+        tags: [
+          { label: "Data", color: "blue" },
+          { label: "Project", color: "pink" },
+          { label: "Milestone", color: "yellow" },
+        ],
+        resources: [
+          {
+            icon: "🏆",
+            label: "Kaggle Datasets — thousands of free real-world datasets",
+            url: "https://www.kaggle.com/datasets",
+          },
+          {
+            icon: "💡",
+            label: "Google Colab — free cloud notebook to run your code",
+            url: "https://colab.research.google.com",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "phase-5",
+    icon: "💬",
+    iconBg: "bg-yellow-100",
+    title: "Phase 5 — Build a Chatbot",
+    subtitle: "Create your own AI-powered chatbot from scratch",
+    lessons: [
+      {
+        id: "lesson-5-1",
+        title: "How chatbots work — from rules to AI",
+        description:
+          "Understand the two types of chatbots: rule-based (follows scripts) and AI-powered (understands natural language). You'll learn what makes modern chatbots like ChatGPT so impressive.",
+        tags: [
+          { label: "Chatbot", color: "yellow" },
+          { label: "Concepts", color: "purple" },
+        ],
+        resources: [
+          {
+            icon: "📖",
+            label: "IBM — What is a chatbot? (clear explainer)",
+            url: "https://www.ibm.com/topics/chatbots",
+          },
+        ],
+      },
+      {
+        id: "lesson-5-2",
+        title: "Build a rule-based chatbot in Python",
+        description:
+          "Your first chatbot! It will respond to messages using if/else logic. Simple, but a great way to see how conversations are structured in code.",
+        tags: [
+          { label: "Chatbot", color: "yellow" },
+          { label: "Python", color: "green" },
+          { label: "Project", color: "pink" },
+        ],
+        resources: [
+          {
+            icon: "📖",
+            label: "Real Python — Build a Chatbot in Python",
+            url: "https://realpython.com/build-a-chatbot-python-chatterbot/",
+          },
+        ],
+      },
+      {
+        id: "lesson-5-3",
+        title: "Introduction to the OpenAI API",
+        description:
+          "Learn to use the same API that powers ChatGPT. You'll send messages to GPT and get intelligent responses back — with just a few lines of Python.",
+        tags: [
+          { label: "Chatbot", color: "yellow" },
+          { label: "AI/ML", color: "purple" },
+          { label: "API", color: "blue" },
+        ],
+        resources: [
+          {
+            icon: "🤖",
+            label: "OpenAI API documentation — quickstart",
+            url: "https://platform.openai.com/docs/quickstart",
+          },
+          {
+            icon: "▶️",
+            label: "YouTube — OpenAI API for Beginners",
+            url: "https://www.youtube.com/watch?v=pGOyw_M1mNE",
+          },
+        ],
+      },
+      {
+        id: "lesson-5-4",
+        title: "Build an AI chatbot with memory",
+        description:
+          "Level up your chatbot so it remembers what was said earlier in the conversation. This is how ChatGPT keeps context — and you'll build the same thing.",
+        tags: [
+          { label: "Chatbot", color: "yellow" },
+          { label: "AI/ML", color: "purple" },
+          { label: "Project", color: "pink" },
+        ],
+        resources: [
+          {
+            icon: "📖",
+            label: "OpenAI — Chat completions guide",
+            url: "https://platform.openai.com/docs/guides/chat-completions",
+          },
+        ],
+      },
+      {
+        id: "lesson-5-5",
+        title: "Give your chatbot a personality 🌸",
+        description:
+          "Customise your chatbot with a system prompt so it has a name, a tone, and a purpose. Build something uniquely yours — a study buddy, a recipe assistant, anything!",
+        tags: [
+          { label: "Chatbot", color: "yellow" },
+          { label: "Project", color: "pink" },
+          { label: "Milestone", color: "purple" },
+        ],
+        resources: [
+          {
+            icon: "💡",
+            label: "OpenAI Prompt Engineering guide",
+            url: "https://platform.openai.com/docs/guides/prompt-engineering",
+          },
+          {
+            icon: "🚀",
+            label: "Streamlit — make your chatbot a real web app for free",
+            url: "https://streamlit.io",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const codeTabs: CodeTab[] = [

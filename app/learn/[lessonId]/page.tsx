@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
@@ -10,12 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   getCompletedLessons, markLessonComplete, markLessonIncomplete, getSnippet,
+  getNote, saveNote,
 } from "@/lib/supabase/queries";
 import { phases, allLessonIds } from "@/lib/data";
 import { lessonContent, type ContentBlock } from "@/lib/lesson-content";
 import {
   ChevronLeft, ChevronRight, CheckCircle2, Circle, Lightbulb,
-  AlertTriangle, Code2, BookOpen, ListChecks,
+  AlertTriangle, Code2, BookOpen, ListChecks, NotebookPen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,9 @@ export default function LessonPage() {
   const [showHint, setShowHint] = useState(false);
   const [hintIndex, setHintIndex] = useState(0);
   const [overallProgress, setOverallProgress] = useState(0);
+  const [noteText, setNoteText] = useState("");
+  const [noteSaved, setNoteSaved] = useState(false);
+  const noteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Prev / Next lesson navigation
   const allIds = allLessonIds;
@@ -54,12 +58,24 @@ export default function LessonPage() {
     Promise.all([
       getCompletedLessons(),
       getSnippet(lessonId),
-    ]).then(([completed, snippet]) => {
+      getNote(lessonId),
+    ]).then(([completed, snippet, note]) => {
       setCompleted(completed.includes(lessonId));
       setSavedCode(snippet);
+      setNoteText(note ?? "");
       setOverallProgress(Math.round((completed.length / allLessonIds.length) * 100));
     });
   }, [lessonId, lesson, router]);
+
+  const handleNoteChange = useCallback((val: string) => {
+    setNoteText(val);
+    setNoteSaved(false);
+    if (noteTimerRef.current) clearTimeout(noteTimerRef.current);
+    noteTimerRef.current = setTimeout(async () => {
+      await saveNote(lessonId, val);
+      setNoteSaved(true);
+    }, 800);
+  }, [lessonId]);
 
   const handleToggleComplete = useCallback(async () => {
     if (toggling) return;
@@ -241,6 +257,25 @@ export default function LessonPage() {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* My notes */}
+        <div className="bg-white rounded-2xl border-2 border-amber-200 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="flex items-center gap-2 font-serif text-lg text-amber-600">
+              <NotebookPen className="w-5 h-5" /> My notes
+            </h2>
+            {noteSaved && (
+              <span className="text-xs text-green-500 font-semibold animate-fade-in">Saved ✓</span>
+            )}
+          </div>
+          <textarea
+            value={noteText}
+            onChange={(e) => handleNoteChange(e.target.value)}
+            placeholder="Jot down anything you want to remember from this lesson…"
+            rows={4}
+            className="w-full resize-none rounded-xl border border-amber-200 bg-amber-50/50 px-3.5 py-2.5 text-sm text-text-rose placeholder:text-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all leading-relaxed"
+          />
         </div>
 
         {/* Mark complete */}

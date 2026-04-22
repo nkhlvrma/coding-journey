@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { BookOpen, User, LogOut, Sparkles, Terminal } from "lucide-react";
+import { BookOpen, User, LogOut, Sparkles, Terminal, BookMarked } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut, getProfile } from "@/lib/supabase/queries";
 import { useEffect, useState } from "react";
@@ -28,6 +28,7 @@ export default function Navigation() {
   const navItems = [
     { href: "/learn", label: "Learn", icon: BookOpen },
     { href: "/playground", label: "Playground", icon: Terminal },
+    { href: "/glossary", label: "Glossary", icon: BookMarked },
   ];
 
   return (
