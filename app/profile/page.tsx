@@ -14,11 +14,19 @@ import { GOALS } from "@/lib/store";
 import type { Profile } from "@/lib/supabase/queries";
 import {
   Trophy, BookOpen, CheckCircle2, Calendar, Star, Flame,
+  Monitor, Code2, Bot, BarChart2, MessageSquare,
+  Rocket, Target, PenLine, Zap, Award, type LucideIcon,
 } from "lucide-react";
+
+const PHASE_ICONS: Record<string, LucideIcon> = {
+  "phase-1": Monitor, "phase-2": Code2, "phase-3": Bot,
+  "phase-4": BarChart2, "phase-5": MessageSquare,
+};
+function iconColor(bg: string) { return bg.replace("bg-", "text-").replace("-100", "-600"); }
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-type Achievement = { id: string; icon: string; title: string; desc: string; unlocked: boolean };
+type Achievement = { id: string; Icon: LucideIcon; title: string; desc: string; unlocked: boolean };
 type QuizScore = { score: number; total: number; taken_at: string };
 
 export default function ProfilePage() {
@@ -61,16 +69,16 @@ export default function ProfilePage() {
   }));
 
   const achievements: Achievement[] = [
-    { id: "first-step", icon: "🐣", title: "First Step", desc: "Complete your first lesson", unlocked: completedCount >= 1 },
-    { id: "phase-1-done", icon: "🖥️", title: "Computer Comfortable", desc: "Complete Phase 1", unlocked: phaseProgress[0].completed === phaseProgress[0].total },
-    { id: "phase-2-done", icon: "🐍", title: "Pythonista", desc: "Complete Phase 2", unlocked: phaseProgress[1].completed === phaseProgress[1].total },
-    { id: "phase-3-done", icon: "🤖", title: "AI Explorer", desc: "Complete Phase 3", unlocked: phaseProgress[2].completed === phaseProgress[2].total },
-    { id: "halfway", icon: "⭐", title: "Halfway There", desc: "Complete 50% of lessons", unlocked: progressPct >= 50 },
-    { id: "all-done", icon: "🏆", title: "Journey Complete", desc: "Complete all lessons", unlocked: completedCount === totalLessons },
-    { id: "quiz-ace", icon: "🎯", title: "Quiz Ace", desc: "Score 100% on a quiz", unlocked: (bestQuizScore ?? 0) === 100 },
-    { id: "quiz-taker", icon: "✏️", title: "Quiz Taker", desc: "Complete 3 quizzes", unlocked: quizScores.length >= 3 },
-    { id: "streak-3", icon: "🔥", title: "On Fire", desc: "3-day learning streak", unlocked: streak >= 3 },
-    { id: "streak-7", icon: "💪", title: "Week Warrior", desc: "7-day learning streak", unlocked: streak >= 7 },
+    { id: "first-step",    Icon: Rocket,       title: "First Step",           desc: "Complete your first lesson",   unlocked: completedCount >= 1 },
+    { id: "phase-1-done",  Icon: Monitor,      title: "Computer Comfortable", desc: "Complete Phase 1",             unlocked: phaseProgress[0].completed === phaseProgress[0].total },
+    { id: "phase-2-done",  Icon: Code2,        title: "Pythonista",           desc: "Complete Phase 2",             unlocked: phaseProgress[1].completed === phaseProgress[1].total },
+    { id: "phase-3-done",  Icon: Bot,          title: "AI Explorer",          desc: "Complete Phase 3",             unlocked: phaseProgress[2].completed === phaseProgress[2].total },
+    { id: "halfway",       Icon: Star,         title: "Halfway There",        desc: "Complete 50% of lessons",      unlocked: progressPct >= 50 },
+    { id: "all-done",      Icon: Trophy,       title: "Journey Complete",     desc: "Complete all lessons",         unlocked: completedCount === totalLessons },
+    { id: "quiz-ace",      Icon: Target,       title: "Quiz Ace",             desc: "Score 100% on a quiz",         unlocked: (bestQuizScore ?? 0) === 100 },
+    { id: "quiz-taker",    Icon: PenLine,      title: "Quiz Taker",           desc: "Complete 3 quizzes",           unlocked: quizScores.length >= 3 },
+    { id: "streak-3",      Icon: Flame,        title: "On Fire",              desc: "3-day learning streak",        unlocked: streak >= 3 },
+    { id: "streak-7",      Icon: Zap,          title: "Week Warrior",         desc: "7-day learning streak",        unlocked: streak >= 7 },
   ];
 
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
@@ -180,7 +188,7 @@ export default function ProfilePage() {
                   <div key={lesson.id} className="flex items-center gap-3 py-2 border-b border-rose-100 last:border-0">
                     <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span className="text-sm text-text-rose flex-1">{lesson.title}</span>
-                    <span className="text-base">{phase.icon}</span>
+                    {(() => { const Icon = PHASE_ICONS[phase.id]; return Icon ? <Icon className="w-4 h-4 text-soft-rose flex-shrink-0" /> : null; })()}
                   </div>
                 ))
               )}
@@ -207,11 +215,11 @@ export default function ProfilePage() {
                 )}
               >
                 <motion.div
-                  className="text-2xl sm:text-3xl mb-1"
+                  className="mb-2 flex justify-center"
                   animate={a.unlocked ? { rotate: [0, -8, 8, 0] } : {}}
                   transition={{ delay: i * 0.05 + 0.3, duration: 0.4 }}
                 >
-                  {a.icon}
+                  <a.Icon className={cn("w-6 h-6", a.unlocked ? "text-rose-500" : "text-gray-400")} />
                 </motion.div>
                 <div className="text-xs font-bold text-text-rose leading-snug">{a.title}</div>
                 <div className="text-[10px] sm:text-xs text-soft-rose mt-0.5 leading-tight">{a.desc}</div>

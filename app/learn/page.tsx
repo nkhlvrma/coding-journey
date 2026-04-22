@@ -14,7 +14,25 @@ import {
 import { phases, allLessonIds, motivationalQuotes } from "@/lib/data";
 import type { Profile } from "@/lib/supabase/queries";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Circle, ChevronDown, ChevronUp, ArrowRight, Flame, Search, X } from "lucide-react";
+import { CheckCircle2, Circle, ChevronDown, ChevronUp, ArrowRight, Flame, Search, X, Monitor, Code2, Bot, BarChart2, MessageSquare, type LucideIcon } from "lucide-react";
+
+const PHASE_ICONS: Record<string, LucideIcon> = {
+  "phase-1": Monitor,
+  "phase-2": Code2,
+  "phase-3": Bot,
+  "phase-4": BarChart2,
+  "phase-5": MessageSquare,
+};
+
+function PhaseIcon({ phaseId, className = "w-5 h-5" }: { phaseId: string; className?: string }) {
+  const Icon = PHASE_ICONS[phaseId];
+  return Icon ? <Icon className={className} /> : null;
+}
+
+/** Converts "bg-rose-100" → "text-rose-600" for icon colour inside a tinted bg */
+function iconColor(bg: string) {
+  return bg.replace("bg-", "text-").replace("-100", "-600");
+}
 import { motion, AnimatePresence } from "framer-motion";
 
 // Phase celebration modal
@@ -263,8 +281,8 @@ export default function LearnPage() {
                   {searchResults.map(({ lesson, phase }) => (
                     <Link key={lesson.id} href={`/learn/${lesson.id}`}>
                       <div className="flex items-center gap-3 bg-white rounded-xl border border-rose-100 px-3 py-2.5 hover:border-rose-300 hover:shadow-sm transition-all group">
-                        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center text-base flex-shrink-0", phase.iconBg)}>
-                          {phase.icon}
+                        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0", phase.iconBg)}>
+                          <PhaseIcon phaseId={phase.id} className={cn("w-4 h-4", iconColor(phase.iconBg))} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-text-rose truncate group-hover:text-rose-600">{lesson.title}</p>
@@ -302,7 +320,7 @@ export default function LearnPage() {
           className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-rose-500"
         >
           <span className="flex items-center gap-2">
-            {phases.find((p) => p.id === activePhase)?.icon}
+            {activePhase && <PhaseIcon phaseId={activePhase} className="w-4 h-4" />}
             {phases.find((p) => p.id === activePhase)?.title.split("—")[1]?.trim() ?? "Phases"}
           </span>
           {sidebarOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -318,7 +336,9 @@ export default function LearnPage() {
                   onClick={() => scrollToPhase(phase.id)}
                   className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-rose-50 transition-colors"
                 >
-                  <span className="text-xl">{phase.icon}</span>
+                  <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0", phase.iconBg)}>
+                    <PhaseIcon phaseId={phase.id} className={cn("w-4 h-4", iconColor(phase.iconBg))} />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-text-rose truncate">
                       {phase.title.split("—")[1]?.trim()}
@@ -340,7 +360,9 @@ export default function LearnPage() {
 
         {/* ── Sidebar ── */}
         <aside className="hidden lg:block w-56 flex-shrink-0">
-          <div className="sticky top-28 space-y-1">
+          <div className="sticky top-28 h-[calc(100vh-7rem)] overflow-y-auto overscroll-contain space-y-1 pr-1 pb-6"
+            style={{ scrollbarWidth: "thin" }}
+          >
             <p className="text-xs font-bold text-soft-rose uppercase tracking-wider px-3 mb-3">Phases</p>
 
             {phases.map((phase, phaseIdx) => {
@@ -357,7 +379,9 @@ export default function LearnPage() {
                       isActive ? "bg-rose-100 text-rose-600" : "text-soft-rose hover:bg-rose-50 hover:text-rose-500"
                     )}
                   >
-                    <span className="text-lg flex-shrink-0">{phase.icon}</span>
+                    <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0", phase.iconBg)}>
+                      <PhaseIcon phaseId={phase.id} className={cn("w-4 h-4", iconColor(phase.iconBg))} />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-bold leading-tight truncate">Phase {phaseIdx + 1}</p>
                       <p className="text-xs truncate opacity-70 leading-tight mt-0.5">
@@ -428,8 +452,8 @@ export default function LearnPage() {
                 return (
                   <div className="mb-5">
                     <div className="flex items-start gap-3.5">
-                      <div className={`w-11 h-11 rounded-xl ${phase.iconBg} flex items-center justify-center text-xl flex-shrink-0 mt-0.5`}>
-                        {phase.icon}
+                      <div className={cn("w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5", phase.iconBg)}>
+                        <PhaseIcon phaseId={phase.id} className={cn("w-6 h-6", iconColor(phase.iconBg))} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline gap-2 flex-wrap">

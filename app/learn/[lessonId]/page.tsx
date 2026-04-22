@@ -17,7 +17,17 @@ import { lessonContent, type ContentBlock } from "@/lib/lesson-content";
 import {
   ChevronLeft, ChevronRight, CheckCircle2, Circle, Lightbulb,
   AlertTriangle, Code2, BookOpen, ListChecks, NotebookPen,
+  Monitor, MessageSquare, Bot, BarChart2, type LucideIcon,
 } from "lucide-react";
+
+const PHASE_ICONS: Record<string, LucideIcon> = {
+  "phase-1": Monitor,
+  "phase-2": Code2,
+  "phase-3": Bot,
+  "phase-4": BarChart2,
+  "phase-5": MessageSquare,
+};
+function iconColor(bg: string) { return bg.replace("bg-", "text-").replace("-100", "-600"); }
 import { cn } from "@/lib/utils";
 
 export default function LessonPage() {
@@ -127,10 +137,10 @@ export default function LessonPage() {
           {/* Title row — icon + title on one line, button below on mobile */}
           <div className="flex items-start gap-3 sm:gap-4">
             <div className={cn(
-              "w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0",
+              "w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center flex-shrink-0",
               phase?.iconBg ?? "bg-rose-100"
             )}>
-              {phase?.icon}
+              {phase && (() => { const Icon = PHASE_ICONS[phase.id]; return Icon ? <Icon className={cn("w-6 h-6 sm:w-7 sm:h-7", iconColor(phase.iconBg))} /> : null; })()}
             </div>
 
             <div className="flex-1 min-w-0">

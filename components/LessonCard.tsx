@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ChevronDown, ExternalLink, ArrowRight } from "lucide-react";
+import { Check, ChevronDown, ExternalLink, ArrowRight, Link2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Lesson } from "@/lib/data";
@@ -110,7 +110,7 @@ export default function LessonCard({ lesson, completed, onToggle, index = 0 }: P
             onClick={() => setResourcesOpen((v) => !v)}
             className="w-full flex items-center gap-2 px-4 py-2 text-xs font-semibold text-mauve hover:bg-rose-50/60 border-t border-rose-100/70 transition-colors min-h-[36px]"
           >
-            <span>🔗</span>
+            <Link2 className="w-3.5 h-3.5 flex-shrink-0" />
             <span>{resourcesOpen ? "Hide" : "Show"} resources ({lesson.resources.length})</span>
             <motion.span
               className="ml-auto"
